@@ -1,0 +1,1 @@
+from Music_Visualization_Application.Music_Visualization_App import app
