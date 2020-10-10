@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	margin: 0;
+	height: 100vh;
+	width: 100vw;
+
+	font-family: "Nunito";
+	font-weight: 300;
+
+	color: #ffffff;
+}
+
+
+
+.track_player {
+
+	width: 300px;
+	height: 500px;
+	padding: 10px 10px 10px 10px;
+	border-radius: 40px;
+
+ background: rgb(27,27,27);
+background: linear-gradient(311deg, rgba(27,27,27,1) 57%, rgba(50,55,56,1) 97%); 
+
+	overflow: auto;
+	position: absolute;
+		
+}
+
+.track_player .playback_div {
+
+	width: 100%;
+	height: 100%;
+
+}
+
+.track_player .playback_div .track_img {
+
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    overflow: hidden;
+
+    width: 80%;
+    height: 45%;
+
+    border-radius: 60%;
+	background: #1b1b1b;
+	box-shadow: inset 4px 4px 4px #000000, 
+            inset -4px -4px 4px #262626;
+
+}
+
+.track_player .playback_div .track_img img{
+	
+	border-radius: 50%;
+    width: 88%;
+    height: 90%;
+
+}
+
+.rotate {
+  animation: rotation 8s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.track_player .playback_div .track_img .track_img_center{
+	
+	position: absolute;
+	border-radius: 90%;
+    width: 7%;
+    height: 4%;
+    background-color: #1b1b1b;
+
+}
+
+.track_player .playback_div .track_information {
+	
+	overflow: hidden;
+	text-align: center;
+	width: 100%;
+	height: 14%;
+
+	margin: 0 auto;
+	margin-top: 10px;
+
+	border-radius: 10px;
+	background: #232323;
+	box-shadow:  4px 4px 4px #0b0b0b, 
+	             -4px -4px 4px #2b2b2b;
+
+}
+
+.track_player .playback_div .track_information .track_name_div {
+	/*margin-top: 5px;*/
+
+	
+}
+
+.track_player .playback_div .track_information h5 {
+	/*margin-top: 5px;*/
+
+	line-height: 0px;
+	white-space: nowrap;
+    text-overflow: clip;
+
+}
+
+.track_player .playback_div .track_information h6 {
+	
+	white-space: nowrap;
+    text-overflow: clip;
+	line-height: 0px;
+
+}
+
+
+.track_player .playback_div .track_seek {
+	margin-top: 10px;
+}
+
+.track_player .playback_div .track_seek input[type="range"]{
+	-webkit-appearance: none;
+
+	width: 100%;
+	height: 4px;
+	outline: none;
+	background: #aaa;
+	overflow: hidden;
+}
+
+.track_player .playback_div .track_seek input[type="range"]::-webkit-slider-thumb {
+
+	-webkit-appearance: none;
+	width: 0px;
+	height: 0px;
+
+	box-shadow: -300px 0px 0px 300px;
+}
+
+.track_player .playback_div .track_control {
+	display: flex;
+	justify-content: center;
+
+	margin: 10px 0px;
+}
+
+.track_player .playback_div .track_control > div {
+	margin: 0px 30px;
+	cursor: pointer;
+}
+
+.track_player .playback_div .track_control i.fa{
+	font-size: 25px;
+	color: #ddd;
+}
+
+.track_player .playback_div .track_control .track_play_pause.paused i.fa-play {
+	display: block;
+}
