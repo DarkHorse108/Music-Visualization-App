@@ -203,6 +203,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 	box-shadow: 3px 2px 4px #121412, -1px -1px 7px #2D3232;
 	border: none;
 	outline: none;
+	cursor: pointer;
 }
 
 .upper_body .track_controls .track_buttons button:active {
@@ -282,6 +283,7 @@ textarea:focus, input:focus {
 	color: #ff7700;
 	height: 20px;
 	width: 116px;
+	cursor: pointer;
 }
 
 .upper_body .track_input .user_input_button button:active {
