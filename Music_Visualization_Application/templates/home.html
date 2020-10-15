@@ -14,45 +14,73 @@
 </head>
 <body>
 
-	<div class="track_player">
-	<audio></audio>
-		<div class="playback_div">
-			
+	<div class="player_body">
+		<div class="upper_body">
+
+			<div class="upper_body_header">
+			</div>
+
 			<div class="track_img">
-				<img src="../static/img/album_art.jpg" class="rotate">
-				<div class="track_img_center">
-					
+				<img id="track_img" src="../static/img/album_art.jpg">
+			</div>
+
+			<div class="track_info">
+				<div class="track_info_position">
+					<div class="track_title">
+						<h5 id="track_title">Childhood Dreams</h5>
+					</div>
+					<div class="track_artist">
+						<h5 id="track_artist">Seraphine</h5>
+					</div>
 				</div>
 			</div>
 
-
-			<div class="track_information">	
-				<h5 id="track_name">Mad Trick</h5>
-				<h6 id="track_artist">Mr. Kimy</h6>
-			</div>
-
-			<div class="track_seek">
-				<input type="range">
-			</div>
-
-			<div class="track_control">
-				<div class="track_play_pause paused">
-					<i class="fa fa-play"></i>
+			<div class="track_controls">
+				<div class="track_seeker_progress">
+					<p id="track_current_time">0:00</p>
+					<p id="track_end_time">4:20</p>
 				</div>
+				<div class="track_seeker">
+					<input id="track_seeker" type="range" class="track_seeker_range_input">
+				</div>
+				<div class="track_buttons">
+					<button id="volume_down_button" class="volume_button">
+						<i class="fas fa-volume-down"></i>
+					</button>
+					<button id="play_pause_button" class="play_pause_button">
+						<i class="fas fa-play"></i>
+					</button>
+					<button id="volume_up_button" class="volume_button">
+						<i class="fas fa-volume-up"></i>
+					</button>
+				</div>
+			</div>
+
+			<div class="user_messaging">
+				<p>Enter the URL of a <a href="https://soundcloud.com/discover" target="_blank" rel="noopener noreferrer"><i class="fab fa-soundcloud"></i>SoundCloud</a> track below, then press submit.</p>
+			</div>
+
+			<div class="track_input">
+				<form>
+					<div class="user_input_form">
+						<input id="user_input_form" type="text">
+					</div>
+					<div class="user_input_button">
+						<button>submit</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="user_error_messaging">
+				<p id="error_message">Invalid SoundCloud track URL. Please try again.</p>
 			</div>
 
 		</div>
 
-<!-- 		<div class="sliding_menu">
-			<div class="form_input">
-				<input type="text" placeholder="SoundCloud URL" class="input_field">
-				<input type="submit" value="submit">
-			</div>
-		</div> -->
-
 	</div>
+
 <script src="https://threejs.org/build/three.js"></script>
 <script src="../static/js/test_animation.js"></script>
-<script src="../static/js/animation_resize.js"></script>
+
 </body>
 </html> 
