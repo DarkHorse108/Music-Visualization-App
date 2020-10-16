@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Commissioner:wght@200&display=swap");
 
-* {
+*{
 	box-sizing: border-box;
 }
 
-body {
+body{
 
 	display: flex;
 	align-items: center;
@@ -18,11 +18,9 @@ body {
 
     font-weight: 200;
     color: #aeaeae;
-
-	
 }
 
-.player_body {
+.player_body{
 	width: 300px;
 	height: 585px;
 	padding: 10px 10px 10px 10px;
@@ -43,7 +41,7 @@ body {
 	box-shadow: 4px 6px 10px #0b0b0b, -4px -4px 4px #2b2b2b;
 }
 
-.upper_body .upper_body_header {
+.upper_body .upper_body_header{
 	overflow: hidden;
 	text-align: center;
 	width: 100%;
@@ -55,7 +53,7 @@ body {
 	box-shadow: 7px 7px 7px #0b0b0b, -4px -4px 4px #2b2b2b;
 }
 
-.upper_body .track_img {
+.upper_body .track_img{
 
 	margin: auto;
 	margin-top: 17px;
@@ -67,14 +65,14 @@ body {
 	box-shadow: 13px 11px 11px #111, 0px -3px 19px #565656;
 }
 
-.upper_body .track_img img {
+.upper_body .track_img img{
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
 	margin-top: 0px;
 }
 
-.upper_body .track_info {
+.upper_body .track_info{
 	overflow: hidden;
 	margin: auto;
 	margin-top: 5px;
@@ -82,27 +80,24 @@ body {
 }
 
 
-.upper_body .track_info .track_info_position {
+.upper_body .track_info .track_info_position{
 
 	margin: 0 auto;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-
 }
 
 .upper_body .track_info .track_title h5{
 	color: #aeaeae;
-
 }
 
 .upper_body .track_info .track_artist h5{
-	color: #aeaeae;
-		
+	color: #aeaeae;	
 }
 
 
-.upper_body .track_controls {
+.upper_body .track_controls{
 	overflow: hidden;
 	margin: 0 auto;
 	
@@ -113,7 +108,7 @@ body {
 	border-radius: 19px;
 }
 
-.track_seeker_progress {
+.track_seeker_progress{
 	overflow: hidden;
 	margin: 0 auto;
 	display: flex;
@@ -121,12 +116,12 @@ body {
 	width: 80%;
 }
 
-.track_seeker_progress p {
+.track_seeker_progress p{
 	color:#aeaeae;
 	font-size: 10px;
 }
 
-.upper_body .track_controls .track_seeker {
+.upper_body .track_controls .track_seeker{
 	margin: 0px auto;
 	align-items: center;
 	justify-content: center;
@@ -145,7 +140,7 @@ body {
 	height: 6%;
 }
 
-input[type="range"] { 
+input[type="range"]{ 
     margin: auto;
     -webkit-appearance: none;
     position: relative;
@@ -154,33 +149,31 @@ input[type="range"] {
     width: 215px;
     cursor: pointer;
     background: transparent;
-    border-radius: 10px; 
-    
+    border-radius: 10px;    
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track{
 	-webkit-appearance: none;
     background: transparent;
     outline: none;
 }
 
 
-::-webkit-slider-thumb {
+::-webkit-slider-thumb{
     -webkit-appearance: none;
     width: 0px; 
     height: 0px;
     background: #8aafdc;
     box-shadow: -100vw 0px 0px 99.9vw #8aafdc;
   	border: none;
-
 }
 
-::-moz-range-track {
+::-moz-range-track{
     height: 9px;
     background: transparent;
 }
 
-::-moz-range-thumb {
+::-moz-range-thumb{
     background: #8aafdc;
     height: 0px;
     width: 0px;
@@ -189,15 +182,14 @@ input[type="range"]::-webkit-slider-runnable-track {
     box-sizing: border-box;
 }
 
-.upper_body .track_controls .track_buttons {
+.upper_body .track_controls .track_buttons{
 	margin: 15px auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
-
 } 
 
-.upper_body .track_controls .track_buttons button {
+.upper_body .track_controls .track_buttons button{
 	border-radius: 13px;
 	background: #202020;
 	box-shadow: 3px 2px 4px #121412, -1px -1px 7px #2D3232;
@@ -206,51 +198,46 @@ input[type="range"]::-webkit-slider-runnable-track {
 	cursor: pointer;
 }
 
-.upper_body .track_controls .track_buttons button:active {
-box-shadow: inset 8px 8px 16px #171717, 
-            inset -8px -8px 16px #333333;
-
+.upper_body .track_controls .track_buttons button:active{
+	box-shadow: inset 8px 8px 16px #171717, 
+    inset -8px -8px 16px #333333;
 }
 
-.upper_body .track_controls .track_buttons .volume_button {
+.upper_body .track_controls .track_buttons .volume_button{
 	height: 30px;
 	width: 30px;
-
 }
 
-.fa-volume-down {
+.fa-volume-down{
 	color: #aeaeae;
 }
 
-.fa-volume-up {
+.fa-volume-up{
 	color: #aeaeae;
 }
 
-.upper_body .track_controls .track_buttons .play_pause_button {
+.upper_body .track_controls .track_buttons .play_pause_button{
 	height: 37px;
 	width: 37px;
-
 }
 
-.fa-play {
+.fa-play{
 	color: #aeaeae;
 }
 
-.upper_body .user_messaging {
+.upper_body .user_messaging{
 	margin: 0 auto;
 	text-align: center;
 	width: 75%;
 	font-size: 11px;
 	color: #ffffff;
-	
 }
 
-.upper_body .user_messaging a {
-	color: #ff7700;
-	
+.upper_body .user_messaging a{
+	color: #ff7700;	
 }
 
-.upper_body .track_input .user_input_form {
+.upper_body .track_input .user_input_form{
 	margin: 0 auto;
 	width: 70%;
 	border-radius: 11px;
@@ -258,7 +245,7 @@ box-shadow: inset 8px 8px 16px #171717,
 	box-shadow: 4px 2px 3px #0B0B0B inset, 3px 2px 17px #4A4A4A inset;
 }
 
-input[type=text] {
+input[type=text]{
  border: none;
  outline: none;
  background: none;
@@ -266,15 +253,15 @@ input[type=text] {
  color: #fff;
 }
 
-textarea:focus, input:focus {
+textarea:focus, input:focus{
     outline: none;
 }
 
-.upper_body .track_input .user_input_button {
+.upper_body .track_input .user_input_button{
 	margin-top: 5px;
 }
 
-.upper_body .track_input .user_input_button button {
+.upper_body .track_input .user_input_button button{
 	border-radius: 23px;
 	background: #202020;
 	box-shadow: 3px 2px 10px #0C0C0C, -1px -1px 17px #262B2B;
@@ -286,16 +273,12 @@ textarea:focus, input:focus {
 	cursor: pointer;
 }
 
-.upper_body .track_input .user_input_button button:active {
+.upper_body .track_input .user_input_button button:active{
 box-shadow: inset 8px 8px 16px #171717, 
             inset -8px -8px 16px #333333;
-
 }
 
 #error_message{
 	color: #eb8181;
 	font-size: 11px;
 }
-
-
-

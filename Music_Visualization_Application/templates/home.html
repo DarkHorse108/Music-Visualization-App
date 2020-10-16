@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<!-- Meta -->
 	<meta charset="UTF-8">
@@ -12,17 +13,24 @@
     <!-- Title, etc.-->
     <title>Music Visualization Application</title>
 </head>
+
 <body>
 
+	<!-- The Player Body is the bottom layer of the music player interface -->
 	<div class="player_body">
+
+		<!-- The Upper Body is the topmost layer of the music player containing the song information, controls, and input form -->
 		<div class="upper_body">
 
+			<!-- The Upper Body Header is the topmsot div whose background is the blue/pink image used for stylistic purposes -->
 			<div class="upper_body_header"></div>
 
+			<!-- Track Img contains the image associated with the track -->
 			<div class="track_img">
 				<img id="track_img" src="../static/img/album_art.jpg">
 			</div>
 
+			<!-- Track Infor contains the title and artist of the track in text form -->
 			<div class="track_info">
 				<div class="track_info_position">
 					<div class="track_title">
@@ -34,14 +42,21 @@
 				</div>
 			</div>
 
+			<!--  The track controls contain the audio seeking interface, play/pause, volume up and down buttons-->
 			<div class="track_controls">
+				
+				<!-- This section solely contains the text/numerical values for the current time and the total time of the track -->
 				<div class="track_seeker_progress">
 					<p id="track_current_time">0:00</p>
 					<p id="track_end_time">4:20</p>
 				</div>
+				
+				<!-- This section contains the progress/seeking interface for the audio -->
 				<div class="track_seeker">
 					<input id="track_seeker" type="range" class="track_seeker_range_input">
 				</div>
+
+				<!-- This section contains the volume and play buttons to interact with the audio. -->
 				<div class="track_buttons">
 					<button id="volume_down_button" class="volume_button">
 						<i class="fas fa-volume-down"></i>
@@ -55,10 +70,12 @@
 				</div>
 			</div>
 
+			<!-- User Messaging contains the instructional messages to the user on what information to input in the text form below it -->
 			<div class="user_messaging">
-				<p>Enter the URL of a <a href="https://soundcloud.com/discover" target="_blank" rel="noopener noreferrer"><i class="fab fa-soundcloud"></i>SoundCloud</a> track below, then press submit.</p>
+				<p>Enter the "share" URL of a <a href="https://soundcloud.com/discover" target="_blank" rel="noopener noreferrer"><i class="fab fa-soundcloud"></i>SoundCloud</a> track below, then press submit.</p>
 			</div>
 
+			<!-- Track Input contains the text input form and submission button for the user provided URL for a SoundCloud track -->
 			<div class="track_input">
 				<form>
 					<div class="user_input_form">
@@ -70,6 +87,7 @@
 				</form>
 			</div>
 
+			<!-- User Error Messaging is the section of the player reserved for displaying an error message if the user provided URL is not valid -->
 			<div class="user_error_messaging">
 				<!-- <p id="error_message">Invalid SoundCloud track URL. Please try again.</p> -->
 			</div>
@@ -78,7 +96,11 @@
 
 	</div>
 
+<!-- Scripts fo the Three.js library as well as the test animation -->
 <script src="https://threejs.org/build/three.js"></script>
+
+<!-- Script for the Three.js test animation procured from: https://www.jotform.com/blog/20-exceptional-three-js-experiments-98740/
+The author of the animation is Pål Smitt-Amundsen-->
 <script src="../static/js/test_animation.js"></script>
 
 </body>
