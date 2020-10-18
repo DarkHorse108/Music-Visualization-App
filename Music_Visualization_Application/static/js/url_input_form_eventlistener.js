@@ -1,5 +1,5 @@
 // This variable will hold the string value entered by the user in the submission form.
-let user_url = '';
+let user_url = null;
 
 // We capture the form HTML element associated with the submission form for the SoundCloud URL by the user
 const form_element = document.getElementById("user_form_element");
