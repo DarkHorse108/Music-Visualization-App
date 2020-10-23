@@ -1,9 +1,11 @@
+// Import the requestTrack function
 import { requestTrack } from "./soundcloud_request_module.js";
+// Import the displayErrorMessage and clearErrorMessage functions
 import {
   displayErrorMessage,
   clearErrorMessage,
 } from "./error_message_module.js";
-const id = null;
+import { client_id } from "../../../config.js";
 
 // This variable will hold the string value entered by the user in the submission form.
 let user_url = null;
@@ -20,7 +22,7 @@ form_element.addEventListener("submit", function (event) {
   form_element.reset();
   clearErrorMessage();
 
-  const results = requestTrack(user_url, id)
+  const results = requestTrack(user_url, client_id)
     .then((promise_variable) => {
       console.log(promise_variable);
       //Update portion using promise_variable object
