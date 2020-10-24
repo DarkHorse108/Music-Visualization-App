@@ -2,7 +2,7 @@
 // It does so by appending an HTML paragraph element with id "error_message" as a child of the div with id "user_error_messaging_div."
 // It first checks if there is an existing error message already displayed. If there is, no action is taken. If there is not, the error message is appended.
 export function displayErrorMessage() {
-  if (not(errorMessagePresent())) {
+  if (!errorMessagePresent()) {
     $("#user_error_messaging_div").append(
       "<p id='error_message'>Invalid SoundCloud track URL. Please try again.</p>"
     );
