@@ -54,7 +54,7 @@ INPUT_FORM.addEventListener("submit", function (event) {
       // Load the new track using the values returned from requestTrack
       updateMusicPlayer(SoundCloud_track);
 
-      // Indicate to the user that track loading has completed and can now be played.
+      // Indicate to the user that track loading has completed and is now playing.
       displayPauseButton();
     })
     // If the request was not successful, print to the console the error message indicating why.
@@ -77,10 +77,12 @@ PLAY_BUTTON.addEventListener("click", function (event) {
   }
 });
 
+// Event listener to increase volume on click of the volume up button
 VOLUME_UP_BUTTON.addEventListener("click", function (event) {
   global_audio.setVolume(global_audio.getVolume() + 0.2);
 });
 
+// Event listener to decrease volume on click of the volume down button
 VOLUME_DOWN_BUTTON.addEventListener("click", function (event) {
   global_audio.setVolume(global_audio.getVolume() - 0.2);
 });
