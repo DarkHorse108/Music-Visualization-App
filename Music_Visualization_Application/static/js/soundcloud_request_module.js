@@ -18,6 +18,7 @@ export async function requestTrack(url, id) {
       artist: `${data.user["username"]}`,
       title: `${data.title}`,
       duration: `${convertToMinSec(Number(data.duration))}`,
+      id: `${data.id}`,
     };
   } else {
     throw new Error("Cannot acquire track info");
