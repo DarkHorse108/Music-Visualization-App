@@ -6,3 +6,7 @@ export function displayPauseButton() {
 export function displayPlayButton() {
   $("#play_pause_icon").attr("class", "fas fa-play");
 }
+
+export function displayLoadingButton() {
+  $("#play_pause_icon").attr("class", "fas fa-circle-notch fa-spin");
+}
