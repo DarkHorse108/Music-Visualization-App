@@ -48,7 +48,7 @@
           <!-- This section solely contains the text/numerical values for the current time and the total time of the track -->
           <div class="track_seeker_progress">
             <p id="track_current_time">0:00</p>
-            <p id="track_end_time">0:00</p>
+            <p id="track_end_time">0:30</p>
           </div>
 
           <!-- This section contains the progress/seeking interface for the audio -->
@@ -57,6 +57,7 @@
               id="track_seeker"
               type="range"
               class="track_seeker_range_input"
+              value="0"
             />
           </div>
 
@@ -77,7 +78,7 @@
         <!-- User Messaging contains the instructional messages to the user on what information to input in the text form below it -->
         <div class="user_messaging">
           <p>
-            Enter the "share" URL of a
+            Enter the URL of a
             <a
               href="https://soundcloud.com/discover"
               target="_blank"
@@ -113,12 +114,15 @@
       integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
       crossorigin="anonymous"
     ></script>
+
     <!-- Scripts for the Three.js library-->
     <script src="https://threejs.org/build/three.js"></script>
+
     <!-- Script for the Three.js test animation procured from: https://www.jotform.com/blog/20-exceptional-three-js-experiments-98740/
 The author of the animation is Pål Smitt-Amundsen-->
     <script src="../static/js/test_animation.js"></script>
 
+    <!-- Main.js -->
     <script src="../static/js/main.js" type="module"></script>
   </body>
 </html>
