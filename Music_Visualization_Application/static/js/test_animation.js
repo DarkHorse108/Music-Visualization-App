@@ -1,4 +1,4 @@
-// var scene = new THREE.Scene();
+var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(
   20,
   window.innerWidth / window.innerHeight,
@@ -6,35 +6,29 @@ var camera = new THREE.PerspectiveCamera(
   50
 );
 
-var listener = new THREE.AudioListener();
-camera.add(listener);
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-var global_audio = new THREE.Audio(listener);
-var global_audio_loader = new THREE.AudioLoader();
+var geometry = new THREE.BoxGeometry(1, 1, 1);
+var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
-// var renderer = new THREE.WebGLRenderer();
-// renderer.setSize(window.innerWidth, window.innerHeight);
-// document.body.appendChild(renderer.domElement);
+camera.position.z = 5;
 
-// var geometry = new THREE.BoxGeometry(1, 1, 1);
-// var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// var cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
+var animate = function () {
+  requestAnimationFrame(animate);
 
-// camera.position.z = 5;
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
 
-// var animate = function () {
-//   requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+};
 
-//   cube.rotation.x += 0.01;
-//   cube.rotation.y += 0.01;
+animate();
 
-//   renderer.render(scene, camera);
-// };
+const canvasElement = document.querySelector("canvas");
 
-// animate();
-
-// const canvasElement = document.querySelector("canvas");
-
-// canvasElement.style.height = "100vh";
-// canvasElement.style.width = "100vw";
+canvasElement.style.height = "100vh";
+canvasElement.style.width = "100vw";
