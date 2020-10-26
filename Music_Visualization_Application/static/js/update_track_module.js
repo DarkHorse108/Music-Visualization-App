@@ -13,19 +13,14 @@ function loadTrackArtist(SoundCloud_track) {
   $("#track_artist").html(SoundCloud_track.artist);
 }
 
-//Updates the global_audio and its context with a buffer containing the stream URL found in the SOundCloud_track object
-function loadTrack(SoundCloud_track) {
-  global_audio_loader.load(SoundCloud_track.streamSource, function (buffer) {
-    global_audio.setBuffer(buffer);
-    global_audio.setLoop(true);
-    global_audio.play();
-  });
+function loadTrackDuration(SoundCloud_track) {
+  $("#track_end_time").html(SoundCloud_track.duration);
 }
 
 // Wrapper function that updates all relevant information regarding the audio, art, track title, and track artist using the SOundCloud_track object
 export function updateMusicPlayer(SoundCloud_track) {
-  loadTrack(SoundCloud_track);
   loadTrackArt(SoundCloud_track);
   loadTrackTitle(SoundCloud_track);
   loadTrackArtist(SoundCloud_track);
+  loadTrackDuration(SoundCloud_track);
 }
