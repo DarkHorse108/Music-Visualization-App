@@ -1,4 +1,4 @@
-async function requestTrack(url, id) {
+export async function requestTrack(url, id) {
 	// Check url length and if it includes a valid prefix
 	if (url.length < 24 || !url.includes('https://soundcloud.com/')) {
 		throw new Error('Invalid link!');
