@@ -41,7 +41,7 @@ const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
-const FREQUENCY_SAMPLESIZE = 512;
+const FREQUENCY_SAMPLESIZE = 256;
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
@@ -54,31 +54,49 @@ let global_audio = new Howl({
 });
 
 // Modify Howler.js object's inner AudioContext to include an Analyser node which will allow us to retrieve data from the song being played.
-// Each time global_analyser.getByteFrequencyData() is called and passed the array global_data_array as an argument, the array will contain frequency data of the song at the time of the function call.
 let global_analyser = Howler.ctx.createAnalyser();
 Howler.masterGain.connect(global_analyser);
+
+// Each time global_analyser.getByteFrequencyData() is called and passed the array global_data_array as an argument, the array will contain frequency data of the song at the time of the function call.
 global_analyser.fftSize = FREQUENCY_SAMPLESIZE;
 let bufferLength = global_analyser.frequencyBinCount;
 let global_data_array = new Uint8Array(bufferLength);
-// global_analyser.getByteFrequencyData(global_data_array);
-// console.log(global_data_array);
+
+// Boolean flag indicating whether or not we want to be collecting frequency data from the song.
+let global_collect_frequency = true;
 
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
-// When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
-global_audio.on("end", () => {
-  displayPlayButton();
-});
-
-// When a track is playing, the below functions will be called once per frame.
+// When a track is played, the below functions will be called once per frame.
 global_audio.on("play", function call_per_frame() {
   let seconds_elapsed = get_seconds_elapsed();
   let percentage_elapsed = get_percentage_elapsed(seconds_elapsed);
   display_time_elapsed(seconds_elapsed);
   display_progressbar_elapsed(percentage_elapsed);
 
+  // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the global_data_array
+  if (global_collect_frequency) {
+    global_analyser.getByteFrequencyData(global_data_array);
+    console.log(global_data_array);
+  }
+
   requestAnimationFrame(call_per_frame.bind(), 1);
 });
+
+// When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
+global_audio.on("end", () => {
+  displayPlayButton();
+});
+
+// This function sets the flag for whether or not we want to collect frequency data for what track is currently playing to FALSE.
+function pause_frequency_collection() {
+  global_collect_frequency = false;
+}
+
+// This function sets the flag for whether or not we want to collect frequency data for what track is currently playing to TRUE.
+function resume_global_frequency_collection() {
+  global_collect_frequency = true;
+}
 
 // Based on the current track's playback progress, return the number of seconds that have elapsed during the track's playback.
 // This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
@@ -130,6 +148,7 @@ INPUT_FORM.addEventListener("submit", function (event) {
     .then((SoundCloud_track) => {
       console.log(SoundCloud_track);
 
+      pause_frequency_collection();
       global_audio.stop();
 
       loadTrack(SoundCloud_track);
@@ -153,14 +172,16 @@ INPUT_FORM.addEventListener("submit", function (event) {
 });
 
 // Listen for click activity on the play button.
-// If music is currently playing and the button is pressed, pause the loaded track, and change the button icon to the Play icon to indicate that the music has been stopped but can be resumed.
-// If music is not currently playing and the button is pressed, play the loaded track, and change the button icon to the Pause icon to indicate that the music is playing now but can be paused.
+// If music is currently playing and the button is pressed, pause the loaded track, and change the button icon to the Play icon to indicate that the music has been stopped but can be resumed, and stop collection of frequency data for the song.
+// If music is not currently playing and the button is pressed, play the loaded track, and change the button icon to the Pause icon to indicate that the music is playing now but can be paused, and resume collection of frequency data for the song.
 PLAY_BUTTON.addEventListener("click", function (event) {
   if (global_audio.playing()) {
     global_audio.pause();
+    pause_frequency_collection();
     displayPlayButton();
   } else if (global_audio.state() === "loaded") {
     global_audio.play();
+    resume_global_frequency_collection();
     displayPauseButton();
   }
 });
