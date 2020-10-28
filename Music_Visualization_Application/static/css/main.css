@@ -152,6 +152,7 @@ input[type="range"] {
   cursor: pointer;
   background: transparent;
   border-radius: 10px;
+  pointer-events: none;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
