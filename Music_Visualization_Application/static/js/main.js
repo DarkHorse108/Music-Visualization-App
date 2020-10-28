@@ -68,6 +68,9 @@ let collectingTrackFrequencies = true;
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
 // When a track is played, the below functions will be called once per frame.
+// We update the seconds elapsed of the track during playback per frame.
+// We update the percentage of the total song played visually in the progress/seek bar for the track.
+// We determine whether or not to collect track frequency data.
 globalAudio.on("play", function callPerFrame() {
   let secondsElapsed = getSecondsElapsed();
   let percentageElapsed = getPercentageElapsed(secondsElapsed);
@@ -145,14 +148,16 @@ INPUT_FORM.addEventListener("submit", function (event) {
   // If the request was successful, update the front-end with the information that was returned.
   const results = requestTrack(user_url, client_id)
     .then((SoundCloud_track) => {
-      console.log(SoundCloud_track);
-
+      // Pause collection of frequency data
       pauseFrequencyCollection();
+
+      // Stop playing audio
       globalAudio.stop();
 
+      // Load the new track
       loadTrack(SoundCloud_track);
 
-      // Load the new track using the values returned from requestTrack
+      // Update the Music Player with the new track's information, such as artist, title, total duration.
       updateMusicPlayer(SoundCloud_track);
     })
     // If the request was not successful, print to the console the error message indicating why.
