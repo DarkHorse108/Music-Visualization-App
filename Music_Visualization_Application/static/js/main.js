@@ -44,7 +44,7 @@ const DEFAULT_TRACK =
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
-// Initialize new Howler.js object with its default state and behaviors
+// Initialize new Howler.js object with its default track and behaviors
 let global_audio = new Howl({
   src: [DEFAULT_TRACK],
   autoplay: false,
