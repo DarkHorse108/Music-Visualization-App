@@ -33,14 +33,14 @@ function formatTime(total_seconds_elapsed) {
 }
 
 // Takes an argument representing units of time in seconds, converts it into minutes:seconds format and places that value as the value of the paragraph element with id "track_current_time".
-export function display_time_elapsed(seconds_elapsed) {
+export function displayTimeElapsed(seconds_elapsed) {
   let formatted_time = formatTime(Math.round(seconds_elapsed));
   $("#track_current_time").html(formatted_time);
 }
 
 // Takes a numerical (integer or float) value as an argument, representing a percentage. This value is placed as the value of the range input element with id "track_seeker" which shows the
 // progress of the played track as a progress/seeker bar.
-export function display_progressbar_elapsed(percentage_elapsed) {
+export function displayProgressBarElapsed(percentage_elapsed) {
   $("#track_seeker").val(percentage_elapsed);
 }
 
