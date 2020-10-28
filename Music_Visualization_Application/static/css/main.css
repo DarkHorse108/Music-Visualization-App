@@ -248,11 +248,21 @@ input[type="text"] {
   background: none;
   width: 90%;
   color: #fff;
+  caret-color: #fff;
 }
 
 textarea:focus,
 input:focus {
   outline: none;
+}
+
+/* Styling of input form to remove default autofill background for Chrome/Edge found here: https://stackoverflow.com/questions/29580704/change-input-background-to-transparent-on-autocomplete-form */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff !important;
 }
 
 .upper_body .track_input .user_input_button {
