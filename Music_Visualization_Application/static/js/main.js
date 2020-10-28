@@ -1,5 +1,7 @@
+////////////////////////////////////////Import Statements////////////////////////////////////////
+
 // Import Howler Library for audio playback handling
-import "./howler.js";
+import "./howler_js/howler.js";
 
 // Import the SoundCloud client_id associated with your application
 import { client_id } from "./config.js";
@@ -14,7 +16,11 @@ import {
 import { requestTrack } from "./soundcloud_request_module.js";
 
 // Import the function that updates what track is being played, along with the information displayed about that track
-import { updateMusicPlayer } from "./update_track_module.js";
+import {
+  display_time_elapsed,
+  display_progressbar_elapsed,
+  updateMusicPlayer,
+} from "./update_track_module.js";
 
 // Import the functions to change the icon associated with the middle playback control button to reflect Pause, Play, and Loading.
 import {
@@ -23,6 +29,8 @@ import {
   displayLoadingButton,
 } from "./update_buttons_module.js";
 
+////////////////////////////////////////Constants////////////////////////////////////////
+
 // Capture the form HTML element associated with the submission form for the SoundCloud URL by the user
 const INPUT_FORM = document.getElementById("user_form_element");
 // Capture the button HTML element associated with the play/pause button.
@@ -30,10 +38,11 @@ const PLAY_BUTTON = document.getElementById("play_pause_button");
 const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 const CURRENT_TIME = document.getElementById("track_current_time");
-
 // Initialize the default track
 const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
+
+////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
 // Initialize new Howler.js object with its default state and behaviors
 let global_audio = new Howl({
@@ -41,24 +50,6 @@ let global_audio = new Howl({
   autoplay: false,
   html5: false,
   loop: false,
-});
-global_audio.on("end", () => {
-  displayPlayButton();
-});
-
-global_audio.on("play", function time_elapsed() {
-  function formatTime(total_seconds) {
-    var minutes = Math.floor(total_seconds / 60) || 0;
-    var seconds = total_seconds - minutes * 60 || 0;
-
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  }
-
-  let seek = global_audio.seek() || 0;
-  $("#track_seeker").val((seek / global_audio.duration()) * 100 || 0);
-  let formatted_time = formatTime(Math.round(seek));
-  $("#track_current_time").html(formatted_time);
-  requestAnimationFrame(time_elapsed.bind(), 1);
 });
 
 // Modify Howler.js object's inner AudioContext to include an Analyser node which will allow us to retrieve data from the song being played.
@@ -71,25 +62,55 @@ let global_data_array = new Uint8Array(bufferLength);
 // global_analyser.getByteFrequencyData(global_data_array);
 // console.log(global_data_array);
 
-//Updates the global_audio and its context with a buffer containing the stream URL found in the SoundCloud_track object
+////////////////////////////////////////Global function definitions////////////////////////////////////////
+
+// When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
+global_audio.on("end", () => {
+  displayPlayButton();
+});
+
+// When a track is playing, the below functions will be called once per frame.
+global_audio.on("play", function call_per_frame() {
+  let seconds_elapsed = get_seconds_elapsed();
+  let percentage_elapsed = get_percentage_elapsed(seconds_elapsed);
+  display_time_elapsed(seconds_elapsed);
+  display_progressbar_elapsed(percentage_elapsed);
+
+  requestAnimationFrame(call_per_frame.bind(), 1);
+});
+
+// Based on the current track's playback progress, return the number of seconds that have elapsed during the track's playback.
+// This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
+function get_seconds_elapsed() {
+  let seconds_elapsed = global_audio.seek() || 0;
+  return seconds_elapsed;
+}
+
+// Given the number of seconds elapsed during the track's playback, convert it to a percentage value relative to the total duration (in seconds) of the track.
+// This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
+function get_percentage_elapsed(seconds_elapsed) {
+  let percentage_elapsed =
+    (seconds_elapsed / global_audio.duration()) * 100 || 0;
+  return percentage_elapsed;
+}
+
+//Make a GET request to the Flask server, sending the track id of the requested song in the request. The Flask server will create its own get request and obtain the URL of the direct mp3 stream/file of the track itself and return it.
+// Once the URL has been obtained, we change the source of the global_audio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
+// request is being made, and to also display a play icon when the global_audio source has been updated and is ready to play.
 function loadTrack(SoundCloud_track) {
   displayLoadingButton();
-  const Http = new XMLHttpRequest();
+  const flask_get_request = new XMLHttpRequest();
   const url = "/stream/" + String(SoundCloud_track.id);
-  Http.open("GET", url);
-  Http.send();
-  Http.onreadystatechange = (final) => {
-    final = Http.responseText;
-    global_audio.changeSrc(final);
+  flask_get_request.open("GET", url);
+  flask_get_request.send();
+  flask_get_request.onreadystatechange = (response) => {
+    response = flask_get_request.responseText;
+    global_audio.changeSrc(response);
     displayPlayButton();
   };
 }
 
-// global_audio.on("play", function analyze_track() {
-//   global_analyser.getByteFrequencyData(global_data_array);
-//   console.log(global_data_array);
-//   requestAnimationFrame(analyze_track.bind(), 1);
-// });
+////////////////////////////////////////HTML Event Listeners////////////////////////////////////////
 
 // Add an eventlistener when the form has been submitted (i.e. when the submit button is pressed).
 INPUT_FORM.addEventListener("submit", function (event) {
