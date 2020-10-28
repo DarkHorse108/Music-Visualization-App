@@ -17,8 +17,8 @@ import { requestTrack } from "./soundcloud_request_module.js";
 
 // Import the function that updates what track is being played, along with the information displayed about that track
 import {
-  display_time_elapsed,
-  display_progressbar_elapsed,
+  displayTimeElapsed,
+  displayProgressBarElapsed,
   updateMusicPlayer,
 } from "./update_track_module.js";
 
@@ -46,7 +46,7 @@ const FREQUENCY_SAMPLESIZE = 256;
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
 // Initialize new Howler.js object with its default track and behaviors
-let global_audio = new Howl({
+let globalAudio = new Howl({
   src: [DEFAULT_TRACK],
   autoplay: false,
   html5: false,
@@ -54,77 +54,76 @@ let global_audio = new Howl({
 });
 
 // Modify Howler.js object's inner AudioContext to include an Analyser node which will allow us to retrieve data from the song being played.
-let global_analyser = Howler.ctx.createAnalyser();
-Howler.masterGain.connect(global_analyser);
+let globalAnalyser = Howler.ctx.createAnalyser();
+Howler.masterGain.connect(globalAnalyser);
 
-// Each time global_analyser.getByteFrequencyData() is called and passed the array global_data_array as an argument, the array will contain frequency data of the song at the time of the function call.
-global_analyser.fftSize = FREQUENCY_SAMPLESIZE;
-let bufferLength = global_analyser.frequencyBinCount;
-let global_data_array = new Uint8Array(bufferLength);
+// Each time globalAnalyser.getByteFrequencyData() is called and passed the array globalDataArray as an argument, the array will contain frequency data of the song at the time of the function call.
+globalAnalyser.fftSize = FREQUENCY_SAMPLESIZE;
+let bufferLength = globalAnalyser.frequencyBinCount;
+let globalDataArray = new Uint8Array(bufferLength);
 
 // Boolean flag indicating whether or not we want to be collecting frequency data from the song.
-let global_collect_frequency = true;
+let collectingTrackFrequencies = true;
 
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
 // When a track is played, the below functions will be called once per frame.
-global_audio.on("play", function call_per_frame() {
-  let seconds_elapsed = get_seconds_elapsed();
-  let percentage_elapsed = get_percentage_elapsed(seconds_elapsed);
-  display_time_elapsed(seconds_elapsed);
-  display_progressbar_elapsed(percentage_elapsed);
+globalAudio.on("play", function callPerFrame() {
+  let secondsElapsed = getSecondsElapsed();
+  let percentageElapsed = getPercentageElapsed(secondsElapsed);
+  displayTimeElapsed(secondsElapsed);
+  displayProgressBarElapsed(percentageElapsed);
 
-  // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the global_data_array
-  if (global_collect_frequency) {
-    global_analyser.getByteFrequencyData(global_data_array);
-    console.log(global_data_array);
+  // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the globalDataArray
+  if (collectingTrackFrequencies) {
+    globalAnalyser.getByteFrequencyData(globalDataArray);
+    console.log(globalDataArray);
   }
 
-  requestAnimationFrame(call_per_frame.bind(), 1);
+  requestAnimationFrame(callPerFrame.bind(), 1);
 });
 
 // When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
-global_audio.on("end", () => {
+globalAudio.on("end", () => {
   displayPlayButton();
 });
 
 // This function sets the flag for whether or not we want to collect frequency data for what track is currently playing to FALSE.
-function pause_frequency_collection() {
-  global_collect_frequency = false;
+function pauseFrequencyCollection() {
+  collectingTrackFrequencies = false;
 }
 
 // This function sets the flag for whether or not we want to collect frequency data for what track is currently playing to TRUE.
-function resume_global_frequency_collection() {
-  global_collect_frequency = true;
+function resumeFrequencyCollection() {
+  collectingTrackFrequencies = true;
 }
 
 // Based on the current track's playback progress, return the number of seconds that have elapsed during the track's playback.
 // This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
-function get_seconds_elapsed() {
-  let seconds_elapsed = global_audio.seek() || 0;
-  return seconds_elapsed;
+function getSecondsElapsed() {
+  let secondsElapsed = globalAudio.seek() || 0;
+  return secondsElapsed;
 }
 
 // Given the number of seconds elapsed during the track's playback, convert it to a percentage value relative to the total duration (in seconds) of the track.
 // This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
-function get_percentage_elapsed(seconds_elapsed) {
-  let percentage_elapsed =
-    (seconds_elapsed / global_audio.duration()) * 100 || 0;
-  return percentage_elapsed;
+function getPercentageElapsed(secondsElapsed) {
+  let percentageElapsed = (secondsElapsed / globalAudio.duration()) * 100 || 0;
+  return percentageElapsed;
 }
 
 // Make a GET request to the Flask server, sending the track id of the requested song in the request. The Flask server will create its own get request and obtain the URL of the direct mp3 stream/file of the track itself and return it.
-// Once the URL has been obtained, we change the source of the global_audio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
-// request is being made, and to also display a play icon when the global_audio source has been updated and is ready to play.
+// Once the URL has been obtained, we change the source of the globalAudio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
+// request is being made, and to also display a play icon when the globalAudio source has been updated and is ready to play.
 function loadTrack(SoundCloud_track) {
   displayLoadingButton();
-  const flask_get_request = new XMLHttpRequest();
+  const flaskGETRequest = new XMLHttpRequest();
   const url = "/stream/" + String(SoundCloud_track.id);
-  flask_get_request.open("GET", url);
-  flask_get_request.send();
-  flask_get_request.onreadystatechange = (response) => {
-    response = flask_get_request.responseText;
-    global_audio.changeSrc(response);
+  flaskGETRequest.open("GET", url);
+  flaskGETRequest.send();
+  flaskGETRequest.onreadystatechange = (response) => {
+    response = flaskGETRequest.responseText;
+    globalAudio.changeSrc(response);
     displayPlayButton();
   };
 }
@@ -148,25 +147,22 @@ INPUT_FORM.addEventListener("submit", function (event) {
     .then((SoundCloud_track) => {
       console.log(SoundCloud_track);
 
-      pause_frequency_collection();
-      global_audio.stop();
+      pauseFrequencyCollection();
+      globalAudio.stop();
 
       loadTrack(SoundCloud_track);
 
       // Load the new track using the values returned from requestTrack
       updateMusicPlayer(SoundCloud_track);
-
-      // // Indicate to the user that track loading has completed and is now playing.
-      // displayPlayButton();
     })
     // If the request was not successful, print to the console the error message indicating why.
-    .catch((error_variable) => {
-      if (global_audio.playing()) {
+    .catch((errorVariable) => {
+      if (globalAudio.playing()) {
         displayPauseButton();
       } else {
         displayPlayButton();
       }
-      console.log(error_variable.message);
+      console.log(errorVariable.message);
       displayErrorMessage();
     });
 });
@@ -175,23 +171,23 @@ INPUT_FORM.addEventListener("submit", function (event) {
 // If music is currently playing and the button is pressed, pause the loaded track, and change the button icon to the Play icon to indicate that the music has been stopped but can be resumed, and stop collection of frequency data for the song.
 // If music is not currently playing and the button is pressed, play the loaded track, and change the button icon to the Pause icon to indicate that the music is playing now but can be paused, and resume collection of frequency data for the song.
 PLAY_BUTTON.addEventListener("click", function (event) {
-  if (global_audio.playing()) {
-    global_audio.pause();
-    pause_frequency_collection();
+  if (globalAudio.playing()) {
+    globalAudio.pause();
+    pauseFrequencyCollection();
     displayPlayButton();
-  } else if (global_audio.state() === "loaded") {
-    global_audio.play();
-    resume_global_frequency_collection();
+  } else if (globalAudio.state() === "loaded") {
+    globalAudio.play();
+    resumeFrequencyCollection();
     displayPauseButton();
   }
 });
 
 // Event listener to increase volume on click of the volume up button
 VOLUME_UP_BUTTON.addEventListener("click", function (event) {
-  global_audio.volume(global_audio.volume() + 0.2);
+  globalAudio.volume(globalAudio.volume() + 0.2);
 });
 
 // Event listener to decrease volume on click of the volume down button
 VOLUME_DOWN_BUTTON.addEventListener("click", function (event) {
-  global_audio.volume(global_audio.volume() - 0.2);
+  globalAudio.volume(globalAudio.volume() - 0.2);
 });
