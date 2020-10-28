@@ -140,6 +140,8 @@ body {
   height: 6%;
 }
 
+/* Inspiration for cross-browser compatible seeker/range input box-shadow workaround for displaying progress by Noah Blon found here: https://codepen.io/noahblon/pen/OyajvN*/
+
 input[type="range"] {
   margin: auto;
   -webkit-appearance: none;
