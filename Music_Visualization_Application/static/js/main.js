@@ -37,7 +37,6 @@ const INPUT_FORM = document.getElementById("user_form_element");
 const PLAY_BUTTON = document.getElementById("play_pause_button");
 const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
-const CURRENT_TIME = document.getElementById("track_current_time");
 // Initialize the default track
 const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
@@ -94,7 +93,7 @@ function get_percentage_elapsed(seconds_elapsed) {
   return percentage_elapsed;
 }
 
-//Make a GET request to the Flask server, sending the track id of the requested song in the request. The Flask server will create its own get request and obtain the URL of the direct mp3 stream/file of the track itself and return it.
+// Make a GET request to the Flask server, sending the track id of the requested song in the request. The Flask server will create its own get request and obtain the URL of the direct mp3 stream/file of the track itself and return it.
 // Once the URL has been obtained, we change the source of the global_audio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
 // request is being made, and to also display a play icon when the global_audio source has been updated and is ready to play.
 function loadTrack(SoundCloud_track) {
