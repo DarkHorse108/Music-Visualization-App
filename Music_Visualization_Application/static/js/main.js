@@ -33,13 +33,15 @@ import {
 
 // Capture the form HTML element associated with the submission form for the SoundCloud URL by the user
 const INPUT_FORM = document.getElementById("user_form_element");
-// Capture the button HTML element associated with the play/pause button.
+// Capture the button HTML element associated with the play/pause button and volume up and volume down buttons.
 const PLAY_BUTTON = document.getElementById("play_pause_button");
 const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 // Initialize the default track
 const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
+// The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
+const FREQUENCY_SAMPLESIZE = 512;
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
@@ -55,7 +57,7 @@ let global_audio = new Howl({
 // Each time global_analyser.getByteFrequencyData() is called and passed the array global_data_array as an argument, the array will contain frequency data of the song at the time of the function call.
 let global_analyser = Howler.ctx.createAnalyser();
 Howler.masterGain.connect(global_analyser);
-global_analyser.fftSize = 512;
+global_analyser.fftSize = FREQUENCY_SAMPLESIZE;
 let bufferLength = global_analyser.frequencyBinCount;
 let global_data_array = new Uint8Array(bufferLength);
 // global_analyser.getByteFrequencyData(global_data_array);
