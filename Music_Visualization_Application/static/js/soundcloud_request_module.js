@@ -11,14 +11,18 @@ export async function requestTrack(url, id) {
 
   // Parse response as JSON and store select keys into trackData object
   if (getTrackData.status === 200) {
+    // Asynchronously parse json
     const data = await getTrackData.json();
+
+    // Asynchronously request track header to acquire url of mp3
+    const mp3Stream = await fetch(`${data.stream_url}?client_id=${id}`);
+
     return {
-      streamSource: `${data.stream_url}?client_id=${id}`,
+      streamSource: mp3Stream.url,
       artworkSource: data.artwork_url.replace("large", `t250x250`),
       artist: `${data.user["username"]}`,
       title: `${data.title}`,
       duration: `${convertToMinSec(Number(data.duration))}`,
-      id: `${data.id}`,
     };
   } else {
     throw new Error("Cannot acquire track info");
