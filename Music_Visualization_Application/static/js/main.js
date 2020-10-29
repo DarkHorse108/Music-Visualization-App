@@ -125,14 +125,7 @@ function getPercentageElapsed(secondsElapsed) {
 // Once the URL has been obtained, we change the source of the globalAudio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
 // request is being made, and to also display a play icon when the globalAudio source has been updated and is ready to play.
 function loadTrack(SoundCloud_track) {
-  const flaskGETRequest = new XMLHttpRequest();
-  const url = "/stream/" + String(SoundCloud_track.id);
-  flaskGETRequest.open("GET", url);
-  flaskGETRequest.send();
-  flaskGETRequest.onreadystatechange = (response) => {
-    response = flaskGETRequest.responseText;
-    globalAudio.changeSrc(response);
-  };
+  globalAudio.changeSrc(SoundCloud_track.streamSource);
 }
 
 ////////////////////////////////////////HTML Event Listeners////////////////////////////////////////
