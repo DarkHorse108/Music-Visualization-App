@@ -8,5 +8,5 @@ export function displayPlayButton() {
 }
 
 export function displayLoadingButton() {
-  $("#play_pause_icon").attr("class", "fas fa-circle-notch fa-spin");
+  $("#play_pause_icon").attr("class", "fas fa-sync fa-spin");
 }
