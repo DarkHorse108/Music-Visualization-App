@@ -3,14 +3,24 @@ function loadTrackArt(SoundCloud_track) {
   $("#track_img").attr("src", SoundCloud_track.artworkSource);
 }
 
-// Updates the html h6 element containing the track title with the song title provided in the SoundCloud_track object
+// Updates the html h6 element containing the track title with the song title provided in the SoundCloud_track object. If the track title is longer than 45 characters, it will have a marquee effect by adding the marquee class to it.
 function loadTrackTitle(SoundCloud_track) {
-  $("#track_title").html(SoundCloud_track.title);
+  if (SoundCloud_track.title.length > 45) {
+    $("#track_title_outer").addClass("marquee");
+  } else {
+    $("#track_title_outer").removeClass("marquee");
+  }
+  $("#track_title_text").html(SoundCloud_track.title);
 }
 
-// Updates the html h6 element containing the track artist with the song artist provided in the SoundCloud_track object
+// Updates the html h6 element containing the track artist with the song artist provided in the SoundCloud_track object. If the track artist is longer than 45 characters, it will have a marquee effect by adding the marquee class to it.
 function loadTrackArtist(SoundCloud_track) {
-  $("#track_artist").html(SoundCloud_track.artist);
+  if (SoundCloud_track.artist.length > 45) {
+    $("#track_artist_outer").addClass("marquee");
+  } else {
+    $("#track_artist_outer").removeClass("marquee");
+  }
+  $("#track_artist_text").html(SoundCloud_track.artist);
 }
 
 // Loads the total duration of the song, in minutes:seconds format i.e. (1:15)
