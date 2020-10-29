@@ -28,7 +28,6 @@ export async function requestTrack(url, id) {
     throw new Error("Cannot acquire track info");
   }
 }
-
 // Convert from milliseconds to MM:SS format
 function convertToMinSec(duration) {
   // Convert total track duration from milliseconds to minutes
