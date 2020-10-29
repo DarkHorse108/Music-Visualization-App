@@ -88,6 +88,7 @@ globalAudio.on("play", function callPerFrame() {
 
 // When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
 globalAudio.on("end", () => {
+  pauseFrequencyCollection();
   displayPlayButton();
 });
 
