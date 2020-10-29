@@ -67,6 +67,11 @@ let collectingTrackFrequencies = true;
 
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
+// Only display the Play button on the middle music player control button when the track has been fully loaded.
+globalAudio.on("load", () => {
+  displayPlayButton();
+});
+
 // When a track is played, the below functions will be called once per frame.
 // We update the seconds elapsed of the track during playback per frame.
 // We update the percentage of the total song played visually in the progress/seek bar for the track.
@@ -89,11 +94,6 @@ globalAudio.on("play", function callPerFrame() {
 // When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
 globalAudio.on("end", () => {
   pauseFrequencyCollection();
-  displayPlayButton();
-});
-
-// Only display the Play button on the middle music player control button when the track has been fully loaded.
-globalAudio.on("load", () => {
   displayPlayButton();
 });
 
