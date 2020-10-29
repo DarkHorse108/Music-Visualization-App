@@ -92,6 +92,11 @@ globalAudio.on("end", () => {
   displayPlayButton();
 });
 
+// Only display the Play button on the middle music player control button when the track has been fully loaded.
+globalAudio.on("load", () => {
+  displayPlayButton();
+});
+
 // This function sets the flag for whether or not we want to collect frequency data for what track is currently playing to FALSE.
 function pauseFrequencyCollection() {
   collectingTrackFrequencies = false;
@@ -120,7 +125,6 @@ function getPercentageElapsed(secondsElapsed) {
 // Once the URL has been obtained, we change the source of the globalAudio howler object to be the URL of the direct mp3 stream for the requested song. We update the middle button of the music player to display a loading icon while the
 // request is being made, and to also display a play icon when the globalAudio source has been updated and is ready to play.
 function loadTrack(SoundCloud_track) {
-  displayLoadingButton();
   const flaskGETRequest = new XMLHttpRequest();
   const url = "/stream/" + String(SoundCloud_track.id);
   flaskGETRequest.open("GET", url);
@@ -128,7 +132,6 @@ function loadTrack(SoundCloud_track) {
   flaskGETRequest.onreadystatechange = (response) => {
     response = flaskGETRequest.responseText;
     globalAudio.changeSrc(response);
-    displayPlayButton();
   };
 }
 
@@ -154,6 +157,9 @@ INPUT_FORM.addEventListener("submit", function (event) {
 
       // Stop playing audio
       globalAudio.stop();
+
+      // Display Loading Button to show that we have begun loading the track.
+      displayLoadingButton();
 
       // Load the new track
       loadTrack(SoundCloud_track);
