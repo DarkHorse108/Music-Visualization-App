@@ -133,7 +133,6 @@ function loadTrack(SoundCloud_track) {
 // Add an eventlistener when the form has been submitted (i.e. when the submit button is pressed).
 INPUT_FORM.addEventListener("submit", function (event) {
   //Prevent refreshing of the page and then take the string value the user entered in the form and store it in the variable user_url.
-  displayLoadingButton();
   event.preventDefault();
   let user_url = document.getElementById("user_input_url").value;
 
