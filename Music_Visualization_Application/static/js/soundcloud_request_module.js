@@ -17,6 +17,11 @@ export async function requestTrack(url, id) {
     // Asynchronously request track header to acquire url of mp3
     const mp3Stream = await fetch(`${data.stream_url}?client_id=${id}`);
 
+    // Throw error if everything but stream source does not exist
+    if (mp3Stream.status !== 200) {
+      throw new Error("Cannot acquire track");
+    }
+
     return {
       streamSource: mp3Stream.url,
       artworkSource: data.artwork_url.replace("large", `t250x250`),
