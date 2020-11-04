@@ -30,7 +30,14 @@ import {
 } from './update_buttons_module.js';
 
 // Import functions for threeJS animations
-import { animate } from './animation_module.js';
+import { setScene, animate } from './animation/animation_module.js';
+
+// Import threeJS animation model
+import { model } from './animation/circular_animation.js';
+
+// Initialize animation model mesh and scene
+model.constructMesh();
+setScene(model);
 
 ////////////////////////////////////////Constants////////////////////////////////////////
 
@@ -89,7 +96,7 @@ function callPerFrame() {
 	if (collectingTrackFrequencies) {
 		globalAnalyser.getByteFrequencyData(globalDataArray);
 		//console.log(globalDataArray);
-		animate(globalDataArray);
+		animate(model, globalDataArray);
 	}
 
 	requestAnimationFrame(callPerFrame);
@@ -140,6 +147,10 @@ function loadTrack(SoundCloud_track) {
 INPUT_FORM.addEventListener('submit', function (event) {
 	//Prevent refreshing of the page and then take the string value the user entered in the form and store it in the variable user_url.
 	event.preventDefault();
+
+	// Display Loading Button to show that we have begun loading the track.
+	displayLoadingButton();
+
 	let user_url = document.getElementById('user_input_url').value;
 
 	// Reset the form and remove any text entered by the user in the form, as we have already captured it in user_url. If there is any error message to the user currently being shown, remove it to indicate to the user that their input is being processed.
@@ -155,9 +166,6 @@ INPUT_FORM.addEventListener('submit', function (event) {
 
 			// Stop playing audio
 			globalAudio.stop();
-
-			// Display Loading Button to show that we have begun loading the track.
-			displayLoadingButton();
 
 			// Load the new track
 			loadTrack(SoundCloud_track);
