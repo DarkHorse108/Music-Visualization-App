@@ -57,10 +57,11 @@ const FREQUENCY_SAMPLESIZE = 128;
 
 // Initialize new Howler.js object with its default track and behaviors
 let globalAudio = new Howl({
-	src: [DEFAULT_TRACK],
-	autoplay: false,
-	html5: false,
-	loop: false,
+  src: [DEFAULT_TRACK],
+  volume: 0.5,
+  autoplay: false,
+  html5: false,
+  loop: false,
 });
 
 // Modify Howler.js object's inner AudioContext to include an Analyser node which will allow us to retrieve data from the song being played.
