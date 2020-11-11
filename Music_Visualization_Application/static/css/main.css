@@ -17,6 +17,18 @@ body {
 
   font-weight: 200;
   color: #aeaeae;
+
+  background: rgb(166, 124, 142);
+  background: linear-gradient(
+    8deg,
+    rgba(166, 124, 142, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
+}
+
+canvas {
+  height: 100vh;
+  width: 100vw;
 }
 
 .player_body {
