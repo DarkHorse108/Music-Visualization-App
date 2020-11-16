@@ -1,7 +1,3 @@
-// import * as THREE from "./three.js/build/three.module.js";
-
-// import * as OrbitControls from "./three.js/examples/js/controls/OrbitControls.js";
-
 var scene,
   camera,
   controls,
