@@ -225,16 +225,6 @@ function updateWater() {
   }
 }
 
-// function createFloor() {
-//   let floor = new THREE.BoxGeometry(100, 100, 3);
-//   let floorMaterial = new THREE.MeshToonMaterial({ color: 0x9a7b4f });
-//   let floorMesh = new THREE.Mesh(floor, floorMaterial);
-//   floorMesh.rotation.x = -Math.PI / 2;
-//   floorMesh.position.y = -105;
-//   scene.add(floorMesh);
-//   floorMesh.position.set(0, 0, 0);
-// }
-
 // Create the left wall. We use a box, size it and use the global wallMaterial for it, then place it in terms of x,y,z coordinates in the scene
 function createLeftWall() {
   let leftWall = new THREE.BoxBufferGeometry(100, 70, 5);
@@ -353,7 +343,7 @@ let Drop = function () {
 // Given the value of the arbitrary counter that increases with each frame, if that value is a multiple of 10.
 // Create a new water drop and push it onto the global array containing each water drop
 function createWaterFall(accumulator) {
-  if (accumulator % 5 == 0) {
+  if (accumulator % 50 == 0) {
     for (var i = 0; i < 5; i++) {
       drops.push(new Drop());
     }
