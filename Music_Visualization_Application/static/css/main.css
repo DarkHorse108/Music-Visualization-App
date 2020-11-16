@@ -26,10 +26,10 @@ body {
   );
 }
 
-canvas {
+/* canvas {
   height: 100vh;
   width: 100vw;
-}
+} */
 
 .player_body {
   width: 300px;
