@@ -1,15 +1,22 @@
-var scene,
+let scene,
   camera,
-  controls,
   fieldOfView,
   aspectRatio,
   nearPlane,
   farPlane,
   shadowLight,
-  backLight,
   light,
   renderer,
-  container;
+  canvas,
+  container,
+  waterMesh,
+  height,
+  width;
+
+// This array holds each instance of a water droplet.
+let drops = [];
+
+// let controls;
 
 // global Constants
 const waterMaterial = new THREE.MeshToonMaterial({
@@ -30,12 +37,6 @@ const globalStoneColors = [0x4d5656, 0x515a5a, 0x616a6b];
 
 const globalGrassColors = [0x1e8449, 0x229954, 0x229954];
 
-// Adjustable global vars
-let waterMesh, HEIGHT, WIDTH;
-
-// This array holds each instance of a water droplet.
-let drops = [];
-
 //INIT
 function init() {
   // Create a new Scene
@@ -44,10 +45,24 @@ function init() {
   // Create fog for the scene
   // scene.fog = new THREE.Fog(0xece9ca, 800, 2000);
 
+  // Append the canvas as a child of the document body
+  canvas = document.getElementById("animation");
+  // container.appendChild(renderer.domElement);
+  // Create the new renderer
+  renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    alpha: true,
+    antialias: true,
+  });
+
+  renderer.shadowMapEnabled = true;
+  renderer.shadowMapType = THREE.PCFSoftShadowMap;
+
   // Initialize Values for the camera
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
-  aspectRatio = WIDTH / HEIGHT;
+  container = document.getElementById("animation_div");
+  height = container.clientHeight;
+  width = container.clientWidth;
+  aspectRatio = width / height;
   fieldOfView = 100;
   nearPlane = 1;
   farPlane = 2000;
@@ -58,28 +73,16 @@ function init() {
     farPlane
   );
 
+  // Set the renderer size
+  renderer.setSize(width, height);
+
   // Set Camera starting position
   camera.position.x = 90;
-  camera.position.z = -95;
+  camera.position.z = -90;
   camera.position.y = 80;
 
   // Set where the Camera is looking
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-  // Create the new renderer
-  renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true,
-  });
-
-  // Set the renderer size
-  renderer.setSize(WIDTH, HEIGHT);
-  renderer.shadowMapEnabled = true;
-  renderer.shadowMapType = THREE.PCFSoftShadowMap;
-
-  // Append the canvas as a child of the document body
-  container = document.body;
-  container.appendChild(renderer.domElement);
 
   window.addEventListener("resize", onWindowResize, false);
 
@@ -93,11 +96,19 @@ function init() {
 
 // Detect Window resize and adjust renderer size and aspect ratio if a resize occurs
 function onWindowResize() {
-  HEIGHT = window.innerHeight;
-  WIDTH = window.innerWidth;
-  renderer.setSize(WIDTH, HEIGHT);
-  camera.aspect = WIDTH / HEIGHT;
+  camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  // height = canvas.clientHeight;
+  // width = canvas.clientWidth;
+  // if (canvas.width !== width || canvas.height !== height) {
+  //   renderer.setSize(width, height, false);
+  //   camera.aspect = width / height;
+  //   camera.updateProjectionMatrix();
+  // }
+  // renderer.setSize(WIDTH, HEIGHT, false);
+  // camera.aspect = WIDTH / HEIGHT;
+  // camera.updateProjectionMatrix();
 }
 
 function createLights() {
@@ -528,8 +539,8 @@ function build() {
 
 // Render the Scene
 function render() {
-  if (controls) controls.update();
-
+  // if (controls) controls.update();
+  // onWindowResize();
   renderer.render(scene, camera);
 }
 
