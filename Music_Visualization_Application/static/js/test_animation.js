@@ -46,11 +46,10 @@ function init() {
   // scene.fog = new THREE.Fog(0xece9ca, 800, 2000);
 
   // Append the canvas as a child of the document body
-  canvas = document.getElementById("animation");
+  // canvas = document.getElementById("animation");
   // container.appendChild(renderer.domElement);
   // Create the new renderer
   renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
     alpha: true,
     antialias: true,
   });
@@ -60,6 +59,7 @@ function init() {
 
   // Initialize Values for the camera
   container = document.getElementById("animation_div");
+  container.appendChild(renderer.domElement);
   height = container.clientHeight;
   width = container.clientWidth;
   aspectRatio = width / height;
