@@ -77,9 +77,9 @@ function init() {
   renderer.setSize(width, height);
 
   // Set Camera starting position
-  camera.position.x = 90;
-  camera.position.z = -90;
-  camera.position.y = 80;
+  camera.position.x = 65;
+  camera.position.z = -75;
+  camera.position.y = 65;
 
   // Set where the Camera is looking
   camera.lookAt(new THREE.Vector3(0, 0, 0));
