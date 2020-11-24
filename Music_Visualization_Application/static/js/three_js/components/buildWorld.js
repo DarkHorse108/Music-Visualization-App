@@ -4,6 +4,8 @@ import { createGrass } from "./meshes/grass.js";
 import { createWater } from "./meshes/water.js";
 import { createWaterfall } from "./meshes/waterfall.js";
 import { createWall } from "./meshes/wall.js";
+import { createParticles } from "./meshes/particles.js";
+import { createFireFlies } from "./meshes/fireflies.js";
 
 function buildWorld() {
   // Array to store created meshes
@@ -43,13 +45,38 @@ function buildWorld() {
   return meshArray;
 }
 
-function buildWater() {
+// function buildWater(){
+//   const updateablesArray = [];
+//   updateablesArray.push(createWater());
+//   return updateablesArray;
+// }
+
+function buildUpdateables() {
   const updateablesArray = [];
-
-  // Create water on floor level
-  updateablesArray.push(createWater());
-
+  updateablesArray.push(generateFireFlies());
   return updateablesArray;
+}
+
+function generateFireFlies() {
+  const fireFliesQuantity = 128;
+  const fireFliesSize = 0.3;
+  const fireFliesColor = 0xeee845;
+  const fireFliesxRange = { min: -42.5, max: 45 };
+  const fireFliesyRange = { min: 4, max: 25 };
+  const fireFlieszRange = { min: -44.5, max: 42.5 };
+
+  let fireFlies = createParticles(
+    fireFliesQuantity,
+    fireFliesSize,
+    fireFliesColor,
+    fireFliesxRange,
+    fireFliesyRange,
+    fireFlieszRange
+  );
+
+  createFireFlies(fireFlies);
+
+  return fireFlies;
 }
 
 function generateBlocks(meshArray, createMesh, startingY, limit) {
@@ -161,7 +188,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// Takes a success, and chance, as integers, i.e. 1 in 3, and generates true in 1 in 3 calls to the function on average, false otherwise.
+// Takes a chance as a float representing a percentage, i.e. 60% as 0.6, and returns true based on a randomly generated value if that value falls within 60% or less, false otherwise.
 function generateChance(chance) {
   const probability = chance.toFixed(2);
 
@@ -174,4 +201,9 @@ function generateChance(chance) {
   }
 }
 
-export { buildWorld, buildWater };
+//Given a float range from lowerBound (inclusive) to upperBound(non-inclusive), to a precisionPlace number of digits after the decimal, return a floating point value within that range.
+function getRandomFloat(lowerBound, upperBound) {
+  return Math.random() * (upperBound - lowerBound) + lowerBound;
+}
+
+export { buildWorld, buildUpdateables, getRandomFloat };
