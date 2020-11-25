@@ -3,7 +3,7 @@ import { createScene } from "./components/scene.js";
 import { createLights } from "./components/lights.js";
 import { createRenderer } from "./systems/renderer.js";
 import { Resizer } from "./systems/Resizer.js";
-import { buildWorld, buildWater } from "./components/buildWorld.js";
+import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 
 import { OrbitControls } from "./systems/OrbitControls.js";
 
@@ -41,7 +41,7 @@ class World {
     };
 
     // Build world meshes (stored in an array) and add to scene
-    updateables = buildWater();
+    updateables = buildUpdateables();
     meshes = [...buildWorld(), ...updateables];
     if (meshes && Array.isArray(meshes)) {
       meshes.forEach((mesh) => {
@@ -50,10 +50,14 @@ class World {
     }
   }
   // Render a single frame
+  // render() {
+  //   renderer.render(scene, camera);
+  // }
+
+  // Render a single frame
   render(accumulator, freqArray) {
-    // updateables.forEach((mesh) => {
-    //   mesh.update();
-    // });
+    updateables[1].update(accumulator, freqArray);
+
     renderer.render(scene, camera);
   }
 }
