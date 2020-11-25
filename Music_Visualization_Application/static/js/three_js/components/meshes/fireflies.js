@@ -6,7 +6,7 @@ function createFireFlies(particleMesh) {
   // Define the update function for this particle mesh that will represent the behavior of fireflies
 
   // This represents the maximum distance units in the Y direction that any one firefly will "jump" in response to the value it represents in the frequencyarray data for the music.
-  const yAxisJump = 10;
+  const yAxisJump = 20;
 
   // We assign 3 objects with min and max properties that represent the allowable ranges
   // for incrementation along the respective axes, if we choose to pick a random value within that range later.

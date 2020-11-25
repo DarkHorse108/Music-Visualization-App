@@ -60,7 +60,7 @@ function buildUpdateables() {
 
 function generateFireFlies() {
   const fireFliesQuantity = 128;
-  const fireFliesSize = 0.2;
+  const fireFliesSize = 0.3;
   const fireFliesColor = 0xfdfd96;
   const fireFliesxRange = { min: -52, max: 42.5 };
   const fireFliesyRange = { min: 8, max: 15 };
