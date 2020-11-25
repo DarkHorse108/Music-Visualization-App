@@ -37,10 +37,10 @@ function buildWorld() {
   generateBlocks(meshArray, createStone, -20.5, 9);
 
   // Generate dirt blocks and add to scene
-  generateBlocks(meshArray, createDirt, -11.5, 6);
+  generateBlocks(meshArray, createDirt, -11.5, 7);
 
   // Generate grass blocks and add to scene
-  generateBlocks(meshArray, createGrass, -2.5, 6);
+  generateBlocks(meshArray, createGrass, -2.5, 3);
 
   return meshArray;
 }
@@ -53,17 +53,18 @@ function buildWorld() {
 
 function buildUpdateables() {
   const updateablesArray = [];
+  updateablesArray.push(createWater());
   updateablesArray.push(generateFireFlies());
   return updateablesArray;
 }
 
 function generateFireFlies() {
   const fireFliesQuantity = 128;
-  const fireFliesSize = 0.3;
-  const fireFliesColor = 0xeee845;
-  const fireFliesxRange = { min: -42.5, max: 45 };
-  const fireFliesyRange = { min: 4, max: 25 };
-  const fireFlieszRange = { min: -44.5, max: 42.5 };
+  const fireFliesSize = 0.2;
+  const fireFliesColor = 0xfdfd96;
+  const fireFliesxRange = { min: -52, max: 42.5 };
+  const fireFliesyRange = { min: 8, max: 15 };
+  const fireFlieszRange = { min: -52, max: 42.5 };
 
   let fireFlies = createParticles(
     fireFliesQuantity,
@@ -73,9 +74,7 @@ function generateFireFlies() {
     fireFliesyRange,
     fireFlieszRange
   );
-
-  createFireFlies(fireFlies);
-
+  fireFlies = createFireFlies(fireFlies);
   return fireFlies;
 }
 
