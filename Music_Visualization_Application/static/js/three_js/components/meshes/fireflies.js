@@ -4,23 +4,25 @@ import { getRandomFloat } from "../buildWorld.js";
 // Takes the particleMesh and defines its update function to reflect firefly behavior.
 function createFireFlies(particleMesh) {
   // Define the update function for this particle mesh that will represent the behavior of fireflies
+
+  // This represents the maximum distance units in the Y direction that any one firefly will "jump" in response to the value it represents in the frequencyarray data for the music.
+  const yAxisJump = 10;
+
+  // We assign 3 objects with min and max properties that represent the allowable ranges
+  // for incrementation along the respective axes, if we choose to pick a random value within that range later.
+  particleMesh.xIncrement = { min: 0, max: 0.03 };
+  particleMesh.yIncrement = { min: 0, max: 0 };
+  particleMesh.zIncrement = { min: 0, max: 0.03 };
+
+  // Constants that will represent which axis value we will be adjusting.
+  const xAxis = 0;
+  const yAxis = 1;
+  const zAxis = 2;
+
   particleMesh.update = (accumulator, freqArray) => {
+    console.log("update called");
     // It takes the position array of the underlying geometry for the mesh
     const positionArray = particleMesh.geometry.attributes.position.array;
-
-    // This represents the maximum distance units in the Y direction that any one firefly will "jump" in response to the value it represents in the frequencyarray data for the music.
-    const yAxisJump = 10;
-
-    // We assign 3 objects with min and max properties that represent the allowable ranges
-    // for incrementation along the respective axes, if we choose to pick a random value within that range later.
-    particleMesh.xIncrement = { min: 0, max: 0 };
-    particleMesh.yIncrement = { min: 0, max: 0 };
-    particleMesh.zIncrement = { min: 0, max: 0 };
-
-    // Constants that will represent which axis value we will be adjusting.
-    const xAxis = 0;
-    const yAxis = 1;
-    const zAxis = 2;
 
     // For each point in the quantity of particles
     for (let point = 0; point < particleMesh.particleQuantity; point++) {
@@ -69,7 +71,7 @@ function createFireFlies(particleMesh) {
           // If this firefly had already been updated in the last frame
           else {
             // Set its update status back to false
-            particleMesh.updateArray[point.updated] = false;
+            particleMesh.updateArray[point].updated = false;
 
             // Reset the y axis position of this particle back to what it originally was, as we do not want to consecutively increase y axis values or else we will jump all the way out the top of the scene.
             positionArray[i] = particleMesh.updateArray[point].yOrigin;
@@ -92,9 +94,12 @@ function createFireFlies(particleMesh) {
       }
     }
 
+    // state that the geometry needs to be redrawn
     particleMesh.geometry.attributes.position.needsUpdate = true;
     particleMesh.geometry.setDrawRange(0, particleMesh.particleQuantity);
   };
+
+  return particleMesh;
 }
 
 // Returns a value representing a position on either the x,y,z, within the particle mesh's acceptable coordinate range for that particular axis
