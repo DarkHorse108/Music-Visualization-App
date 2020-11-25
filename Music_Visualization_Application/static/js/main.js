@@ -31,10 +31,12 @@ import {
 
 import { World } from "./three_js/World.js";
 
+////////////////////////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////Constants////////////////////////////////////////
 
 // Capture the form HTML element associated with the submission form for the SoundCloud URL by the user
-const canvas = document.getElementById("animation_div");
+const canvasContainer = document.getElementById("animation_div");
 const INPUT_FORM = document.getElementById("user_form_element");
 // Capture the button HTML element associated with the play/pause button and volume up and volume down buttons.
 const PLAY_BUTTON = document.getElementById("play_pause_button");
@@ -44,7 +46,10 @@ const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
-const FREQUENCY_SAMPLESIZE = 128;
+const FREQUENCY_SAMPLESIZE = 256;
+
+// Global Accumulator that can be passed to the renderer to control the number of times particular meshes are updated/rerendered.
+let globalAccumulator = 0;
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
@@ -67,7 +72,7 @@ let bufferLength = globalAnalyser.frequencyBinCount;
 let globalDataArray = new Uint8Array(bufferLength);
 
 // Boolean flag indicating whether or not we want to be collecting frequency data from the song.
-let collectingTrackFrequencies = true;
+let collectingTrackFrequencies = false;
 
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
@@ -77,8 +82,9 @@ globalAudio.on("load", () => {
 });
 
 // Load a new instanced threeJS world
-let world = new World(canvas);
-world.render();
+let world = new World(canvasContainer);
+// This is the version of render that does not require any arguments to render the first data independent frame of the world.
+world.render(globalAccumulator, globalDataArray);
 
 // When a track is played, the below functions will be called once per frame.
 // We update the seconds elapsed of the track during playback per frame.
@@ -93,13 +99,21 @@ function callPerFrame() {
   // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the globalDataArray
   if (collectingTrackFrequencies) {
     globalAnalyser.getByteFrequencyData(globalDataArray);
-    //console.log(globalDataArray);
+    // console.log(globalDataArray);
 
-    // Render a single three.js frame
-    world.render(globalDataArray);
+    // Render a single three.js frame that is informed by data
+    world.render(globalAccumulator, globalDataArray);
   }
 
   requestAnimationFrame(callPerFrame);
+
+  // Increment our accumulator
+  globalAccumulator++;
+
+  // If the global Accumulator has reached 60, rest its value so that accumulator does not grow to an unmanageable number over the course of the using the application
+  if (globalAccumulator === 60) {
+    globalAccumulator = 0;
+  }
 }
 globalAudio.on("play", callPerFrame);
 
