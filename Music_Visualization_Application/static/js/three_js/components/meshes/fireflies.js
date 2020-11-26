@@ -41,9 +41,17 @@ function createFireFly(fireFlyNumber) {
       mesh.updateFlag = true;
       mesh.position.y = randomY + intensity * mesh.maxGain;
       if (mesh.fireFlyId <= 30) {
-        mesh.material.color.setRGB(intensity * 1, intensity * 1, intensity * 2);
+        mesh.material.color.setRGB(
+          intensity * 2 + 0.1,
+          intensity * 1,
+          intensity * 1
+        );
       } else if (31 <= mesh.fireFlyId && mesh.fireFlyId <= 60) {
-        mesh.material.color.setRGB(intensity * 2, intensity * 1, intensity * 1);
+        mesh.material.color.setRGB(
+          intensity * 1,
+          intensity * 1,
+          intensity * 2 + 0.1
+        );
       } else if (61 <= mesh.fireFlyId && mesh.fireFlyId <= 99) {
         mesh.material.color.setRGB(0.07, intensity + 0.2, 0.96);
       }

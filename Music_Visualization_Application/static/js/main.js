@@ -89,7 +89,7 @@ const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 // Initialize the default track
 const DEFAULT_TRACK =
-  "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
+  "https://ia802807.us.archive.org/23/items/cd_mozart_wolfgang-amadeus-mozart-richard-goode/disc1/07.%20Wolfgang%20Amadeus%20Mozart%20-%20Rondo%20in%20A%20minor%2C%20K.%20511_sample.mp3";
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
 const FREQUENCY_SAMPLESIZE = 256;
 
@@ -147,11 +147,6 @@ function callPerFrame() {
 callPerFrame();
 
 globalAudio.on("load", () => {
-  pauseFrequencyCollection();
-  displayPlayButton();
-});
-
-globalAudio.on("pause", () => {
   pauseFrequencyCollection();
   displayPlayButton();
 });
