@@ -49,14 +49,13 @@ class World {
       });
     }
   }
-  // Render a single frame
-  // render() {
-  //   renderer.render(scene, camera);
-  // }
 
-  // Render a single frame
-  render(accumulator, freqArray) {
-    updateables[1].update(accumulator, freqArray);
+  render(freqArray) {
+    if (updateables && Array.isArray(updateables)) {
+      updateables.forEach((mesh) => {
+        mesh.update(freqArray);
+      });
+    }
 
     renderer.render(scene, camera);
   }
