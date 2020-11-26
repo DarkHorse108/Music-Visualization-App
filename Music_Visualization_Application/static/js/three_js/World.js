@@ -35,10 +35,10 @@ class World {
     const resizer = new Resizer(canvasContainer, camera, renderer);
 
     // Initialize hook in resizer
-    resizer.onResize = () => {
-      // Render a new single frame if resize detected
-      this.render();
-    };
+    // resizer.onResize = () => {
+    //   // Render a new single frame if resize detected
+    //   this.render();
+    // };
 
     // Build world meshes (stored in an array) and add to scene
     updateables = buildUpdateables();
