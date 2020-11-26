@@ -16,7 +16,7 @@ function createFireFly(fireFlyNumber) {
   const mesh = new Mesh(geometry, material);
 
   const xRange = { min: -40, max: 45 };
-  const yRange = { min: 8, max: 35 };
+  const yRange = { min: 8, max: 30 };
   const zRange = { min: -60, max: 40 };
   const randomX = getRandomFloat(xRange.min, xRange.max);
   const randomY = getRandomFloat(yRange.min, yRange.max);
