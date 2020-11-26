@@ -5,7 +5,7 @@ import { createWater } from "./meshes/water.js";
 import { createWaterfall } from "./meshes/waterfall.js";
 import { createWall } from "./meshes/wall.js";
 import { createParticles } from "./meshes/particles.js";
-import { createFireFlies } from "./meshes/fireflies.js";
+import { createFireFly } from "./meshes/fireflies.js";
 
 function buildWorld() {
   // Array to store created meshes
@@ -53,29 +53,15 @@ function buildWorld() {
 
 function buildUpdateables() {
   const updateablesArray = [];
+  let newFireFly;
   updateablesArray.push(createWater());
-  updateablesArray.push(generateFireFlies());
+
+  for (let i = 0; i < 128; i++) {
+    newFireFly = createFireFly(i);
+    updateablesArray.push(newFireFly);
+  }
+
   return updateablesArray;
-}
-
-function generateFireFlies() {
-  const fireFliesQuantity = 128;
-  const fireFliesSize = 0.3;
-  const fireFliesColor = 0xfdfd96;
-  const fireFliesxRange = { min: -52, max: 42.5 };
-  const fireFliesyRange = { min: 8, max: 15 };
-  const fireFlieszRange = { min: -52, max: 42.5 };
-
-  let fireFlies = createParticles(
-    fireFliesQuantity,
-    fireFliesSize,
-    fireFliesColor,
-    fireFliesxRange,
-    fireFliesyRange,
-    fireFlieszRange
-  );
-  fireFlies = createFireFlies(fireFlies);
-  return fireFlies;
 }
 
 function generateBlocks(meshArray, createMesh, startingY, limit) {
