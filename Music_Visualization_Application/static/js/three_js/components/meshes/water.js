@@ -49,6 +49,8 @@ function createWater() {
   // Reposition water mesh
   water.position.set(0, -15, 0);
 
+  water.update = (freqArray) => {};
+
   return water;
 }
 
