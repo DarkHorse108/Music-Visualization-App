@@ -32,6 +32,51 @@ import {
 import { World } from "./three_js/World.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////
+("use strict");
+
+// requestAnimationFrame polyfill by Erik Möller.
+// Fixes from Paul Irish, Tino Zijdel, Andrew Mao, Klemen Slavic, Darius Bacon and Joan Alba Maldonado.
+// Adapted from https://gist.github.com/paulirish/1579671 which derived from
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+// Added high resolution timing. This window.performance.now() polyfill can be used: https://gist.github.com/jalbam/cc805ac3cfe14004ecdf323159ecf40e
+// MIT license
+// Gist: https://gist.github.com/jalbam/5fe05443270fa6d8136238ec72accbc0
+(function () {
+  var vendors = ["webkit", "moz", "ms", "o"],
+    vp = null;
+  for (
+    var x = 0;
+    x < vendors.length &&
+    !window.requestAnimationFrame &&
+    !window.cancelAnimationFrame;
+    x++
+  ) {
+    vp = vendors[x];
+    window.requestAnimationFrame =
+      window.requestAnimationFrame || window[vp + "RequestAnimationFrame"];
+    window.cancelAnimationFrame =
+      window.cancelAnimationFrame ||
+      window[vp + "CancelAnimationFrame"] ||
+      window[vp + "CancelRequestAnimationFrame"];
+  }
+  if (
+    /iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) ||
+    !window.requestAnimationFrame ||
+    !window.cancelAnimationFrame
+  ) {
+    //iOS6 is buggy.
+    var lastTime = 0;
+    window.requestAnimationFrame = function (callback, element) {
+      var now = window.performance.now();
+      var nextTime = Math.max(lastTime + 16, now);
+      return setTimeout(function () {
+        callback((lastTime = nextTime));
+      }, nextTime - now);
+    };
+    window.cancelAnimationFrame = clearTimeout;
+  }
+})();
 
 ////////////////////////////////////////Constants////////////////////////////////////////
 
@@ -47,9 +92,6 @@ const DEFAULT_TRACK =
   "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
 const FREQUENCY_SAMPLESIZE = 256;
-
-// Global Accumulator that can be passed to the renderer to control the number of times particular meshes are updated/rerendered.
-let globalAccumulator = 0;
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
@@ -77,14 +119,9 @@ let collectingTrackFrequencies = false;
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
 // Only display the Play button on the middle music player control button when the track has been fully loaded.
-globalAudio.on("load", () => {
-  displayPlayButton();
-});
 
 // Load a new instanced threeJS world
 let world = new World(canvasContainer);
-// This is the version of render that does not require any arguments to render the first data independent frame of the world.
-world.render(globalAccumulator, globalDataArray);
 
 // When a track is played, the below functions will be called once per frame.
 // We update the seconds elapsed of the track during playback per frame.
@@ -99,23 +136,31 @@ function callPerFrame() {
   // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the globalDataArray
   if (collectingTrackFrequencies) {
     globalAnalyser.getByteFrequencyData(globalDataArray);
-    // console.log(globalDataArray);
+    console.log(globalDataArray);
 
     // Render a single three.js frame that is informed by data
-    world.render(globalAccumulator, globalDataArray);
+    world.render(globalDataArray);
   }
 
   requestAnimationFrame(callPerFrame);
-
-  // Increment our accumulator
-  globalAccumulator++;
-
-  // If the global Accumulator has reached 60, rest its value so that accumulator does not grow to an unmanageable number over the course of the using the application
-  if (globalAccumulator === 60) {
-    globalAccumulator = 0;
-  }
 }
-globalAudio.on("play", callPerFrame);
+
+callPerFrame();
+
+globalAudio.on("load", () => {
+  pauseFrequencyCollection();
+  displayPlayButton();
+});
+
+globalAudio.on("pause", () => {
+  pauseFrequencyCollection();
+  displayPlayButton();
+});
+
+globalAudio.on("play", () => {
+  resumeFrequencyCollection();
+  displayPauseButton();
+});
 
 // When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
 globalAudio.on("end", () => {
