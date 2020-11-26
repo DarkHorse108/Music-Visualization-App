@@ -136,7 +136,6 @@ function callPerFrame() {
   // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the globalDataArray
   if (collectingTrackFrequencies) {
     globalAnalyser.getByteFrequencyData(globalDataArray);
-    console.log(globalDataArray);
 
     // Render a single three.js frame that is informed by data
     world.render(globalDataArray);
