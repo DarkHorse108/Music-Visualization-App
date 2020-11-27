@@ -53,10 +53,10 @@ function createFireFly(fireFlyNumber) {
           intensity * 1,
           intensity * 2 + 0.1
         );
-        mesh.maxGain = 10;
+        mesh.maxGain = 15;
       } else if (61 <= mesh.fireFlyId && mesh.fireFlyId <= 99) {
         mesh.material.color.setRGB(0.07, intensity + 0.2, 0.96);
-        mesh.maxGain = 5;
+        mesh.maxGain = 10;
       }
       mesh.position.y = randomY + intensity * mesh.maxGain;
     } else {
