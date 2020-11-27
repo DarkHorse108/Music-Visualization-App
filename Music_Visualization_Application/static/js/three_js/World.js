@@ -39,7 +39,7 @@ class World {
     // Initialize hook in resizer
     resizer.onResize = () => {
       // Render a new single frame if resize detected
-      this.render(currentFreqArray);
+      this.render(this.currentFreqArray);
     };
 
     // Build world meshes (stored in an array) and add to scene
