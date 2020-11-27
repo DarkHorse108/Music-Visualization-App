@@ -24,6 +24,8 @@ class World {
 
     canvasContainer.append(renderer.domElement);
 
+    this.currentFreqArray = null;
+
     // Create orbital controls
     const controls = new OrbitControls(camera, canvasContainer);
 
@@ -35,10 +37,10 @@ class World {
     const resizer = new Resizer(canvasContainer, camera, renderer);
 
     // Initialize hook in resizer
-    // resizer.onResize = () => {
-    //   // Render a new single frame if resize detected
-    //   this.render();
-    // };
+    resizer.onResize = () => {
+      // Render a new single frame if resize detected
+      this.render(currentFreqArray);
+    };
 
     // Build world meshes (stored in an array) and add to scene
     updateables = buildUpdateables();
@@ -51,6 +53,7 @@ class World {
   }
 
   render(freqArray) {
+    this.currentFreqArray = freqArray;
     if (updateables && Array.isArray(updateables)) {
       updateables.forEach((mesh) => {
         mesh.update(freqArray);
