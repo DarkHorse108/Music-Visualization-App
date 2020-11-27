@@ -8,9 +8,9 @@ export { createFireFly };
 
 function createFireFly(fireFlyNumber) {
   // Allowable x, y, and z range for each firefly
-  const xRange = { min: -40, max: 45 };
-  const yRange = { min: 8, max: 20 };
-  const zRange = { min: -60, max: 40 };
+  const xRange = { min: -45, max: 48 };
+  const yRange = { min: 8, max: 25 };
+  const zRange = { min: -52, max: 45 };
 
   // default speed of the firefly as it travels in the positive x and z axes direction
   const fireFlySpeed = 0.03;
