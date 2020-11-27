@@ -24,6 +24,8 @@ class World {
 
     canvasContainer.append(renderer.domElement);
 
+    // Since the resizercalls the render function, it needs to have a freqArray argument.
+    // This will continue the most recent freqArray passed in from main.js and can be used as the argument for the render function call on resize.
     this.currentFreqArray = null;
 
     // Create orbital controls
@@ -52,6 +54,7 @@ class World {
     }
   }
 
+  // Takes an array of frequency data from the song, passes it to the update method of each mesh in the updateables array before rendering a single frame of the scene
   render(freqArray) {
     this.currentFreqArray = freqArray;
     if (updateables && Array.isArray(updateables)) {

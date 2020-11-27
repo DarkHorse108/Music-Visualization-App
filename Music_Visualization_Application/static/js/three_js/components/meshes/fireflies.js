@@ -57,25 +57,25 @@ function createFireFly(fireFlyNumber) {
 
       // If this firefly is one of the fireflies representing an index within the firs 0-30 (inclusive) indices of the frequency array
       if (mesh.fireFlyId <= 30) {
-        // Give it a primarily red color whose intensity is dependent on how large the frequency value it represents in the freqArray
+        // Give it a primarily yellow color whose intensity is dependent on how large the frequency value it represents in the freqArray
         mesh.material.color.setRGB(intensity + 0.5, 0.79, 0);
-        // Give its y axis maxGain to be 20. The first 0-30 indices are generally high frequency notes and are the most common. We want these to be very noticeable so not only are they yellow in color,
+        // Give its y axis maxGain to be 15. The first 0-30 indices are generally high frequency notes and are the most common. We want these to be very noticeable so not only are they yellow in color,
         // They have the highest potential for a y-axis jump/increase so they can be easily seen above mid to low frequencies in the song.
         mesh.maxGain = 15;
 
         // If this firefly is one of the fireflies representing an index within the second grouping of 31-60 (inclusive) indices of the frequency array
       } else if (31 <= mesh.fireFlyId && mesh.fireFlyId <= 60) {
-        // Give it a primarily blue color whose intensity is dependent on how large the frequency value it represents in the freqArray
+        // Give it a primarily purple color whose intensity is dependent on how large the frequency value it represents in the freqArray
         mesh.material.color.setRGB(intensity, 0.41, 0.59);
-        // Give its y axis maxGain to be 15. The 31-60 indices are generally mid frequency notes and are the second most common. We want these to be noticeable but also be distinct from the high frequencies, so not only are they purple  in color,
+        // Give its y axis maxGain to be 10. The 31-60 indices are generally mid frequency notes and are the second most common. We want these to be noticeable but also be distinct from the high frequencies, so not only are they purple  in color,
         // They have a lower potential for a y-axis jump/increase so they can be easily seen above low frequencies in the song. Generally we should see the high frequency/red fireflies at the top, followed by the mid frequencies in blue below it.
         mesh.maxGain = 10;
 
         // If this firefly is one of the fireflies representing an index within the third grouping of 61-99 (inclusive) indices of the frequency array
       } else if (61 <= mesh.fireFlyId && mesh.fireFlyId <= 99) {
-        // Give it a primarily green/blue color whose intensity is dependent on how large the frequency value it represents in the freqArray
+        // Give it a primarily darker blue color whose intensity is dependent on how large the frequency value it represents in the freqArray
         mesh.material.color.setRGB(0.33, 0.58, intensity + 0.5);
-        // Give its y axis maxGain to be 10. The 61-99 indices are generally low frequency notes and are not as commonly given values in songs. We want these to be noticeable but also be distinct from the other frequencies, so they are more blue.
+        // Give its y axis maxGain to be 5. The 61-99 indices are generally low frequency notes and are not as commonly given values in songs. We want these to be noticeable but also be distinct from the other frequencies, so they are more blue.
         // They have a lower potential for a y-axis jump/increase so they can be easily seen distinctly below the other frequencies.
         mesh.maxGain = 5;
       }
@@ -104,7 +104,7 @@ function createFireFly(fireFlyNumber) {
       nextX < xRange.min ||
       nextX > xRange.max
     ) {
-      // Assign it a random coordinate for its x and z axes that is guaranteed to be within the allowable range for those axes
+      // Assign it a random coordinate for its x, y, and z axes that is guaranteed to be within the allowable range for those axes
       nextZ = getRandomFloat(zRange.min, zRange.max);
       nextX = getRandomFloat(xRange.min, xRange.max);
       mesh.position.y = getRandomFloat(yRange.min, yRange.max);

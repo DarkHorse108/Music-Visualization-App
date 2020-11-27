@@ -112,6 +112,8 @@ Howler.masterGain.connect(globalAnalyser);
 globalAnalyser.fftSize = FREQUENCY_SAMPLESIZE;
 let bufferLength = globalAnalyser.frequencyBinCount;
 let globalDataArray = new Uint8Array(bufferLength);
+
+// A default array with 0s in all its indices that is fed into the very first render of the animation when the application is first loaded and we have no array from actual song data yet.
 let cleanDataArray = [];
 for (let i = 0; i < FREQUENCY_SAMPLESIZE / 2; i++) {
   cleanDataArray[i] = 0;
@@ -124,7 +126,7 @@ let collectingTrackFrequencies = false;
 
 // Only display the Play button on the middle music player control button when the track has been fully loaded.
 
-// Load a new instanced threeJS world
+// Load a new instanced threeJS world and render it using the cleanDataArray. After the animation has loaded once, we will use actual array data containing frequency information held in globalDataArray. We do this because render current requires an array argument.
 let world = new World(canvasContainer);
 world.render(cleanDataArray);
 
@@ -151,11 +153,13 @@ function callPerFrame() {
 
 callPerFrame();
 
+// When audio has loaded, for safety ensure that frequency collection flag is set to false since no music is playing until the user presses play. As such we display the play button.
 globalAudio.on("load", () => {
   pauseFrequencyCollection();
   displayPlayButton();
 });
 
+// When audio is playing, set the frequency collection flag to true and show the pause button to indicate the song can be paused.
 globalAudio.on("play", () => {
   resumeFrequencyCollection();
   displayPauseButton();

@@ -45,12 +45,9 @@ function buildWorld() {
   return meshArray;
 }
 
-// function buildWater(){
-//   const updateablesArray = [];
-//   updateablesArray.push(createWater());
-//   return updateablesArray;
-// }
-
+//Creates an array of meshes that need to be updated/have their update method called.
+// Pushes each new mesh on to the end of said array.
+//First creates the water mesh, then pushes 128 firefly meshes on to the end and returns the whole array.
 function buildUpdateables() {
   const updateablesArray = [];
   let newFireFly;
