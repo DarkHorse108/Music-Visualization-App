@@ -112,6 +112,10 @@ Howler.masterGain.connect(globalAnalyser);
 globalAnalyser.fftSize = FREQUENCY_SAMPLESIZE;
 let bufferLength = globalAnalyser.frequencyBinCount;
 let globalDataArray = new Uint8Array(bufferLength);
+let cleanDataArray = [];
+for (let i = 0; i < FREQUENCY_SAMPLESIZE / 2; i++) {
+  cleanDataArray[i] = 0;
+}
 
 // Boolean flag indicating whether or not we want to be collecting frequency data from the song.
 let collectingTrackFrequencies = false;
@@ -122,6 +126,7 @@ let collectingTrackFrequencies = false;
 
 // Load a new instanced threeJS world
 let world = new World(canvasContainer);
+world.render(cleanDataArray);
 
 // When a track is played, the below functions will be called once per frame.
 // We update the seconds elapsed of the track during playback per frame.
