@@ -4,7 +4,7 @@
 export function displayErrorMessage() {
   if (!errorMessagePresent()) {
     $("#user_error_messaging_div").append(
-      "<p id='error_message'>Invalid SoundCloud track URL. Please try again.</p>"
+      "<p id='error_message'>Invalid SoundCloud track.</br>Try a different track.</p>"
     );
   }
 }

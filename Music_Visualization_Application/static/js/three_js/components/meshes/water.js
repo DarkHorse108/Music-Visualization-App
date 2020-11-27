@@ -5,7 +5,7 @@ import {
   Mesh,
 } from "../../three.module.js";
 
-const dimensions = [102, 102, 15]; // dimensions represented as [x, y, z]
+const dimensions = [102, 102, 28]; // dimensions represented as [x, y, z]
 
 function createWater() {
   // Create geometry of water mesh
@@ -32,7 +32,7 @@ function createWater() {
   const material = new MeshToonMaterial({
     color: 0x6092c1,
     transparent: true,
-    opacity: 0.4,
+    opacity: 0.5,
     side: DoubleSide,
   });
 
@@ -47,7 +47,9 @@ function createWater() {
   water.position.y = -105;
 
   // Reposition water mesh
-  water.position.set(0, -10, 0);
+  water.position.set(0, -15, 0);
+
+  water.update = (freqArray) => {};
 
   return water;
 }

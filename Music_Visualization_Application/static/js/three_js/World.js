@@ -3,7 +3,7 @@ import { createScene } from "./components/scene.js";
 import { createLights } from "./components/lights.js";
 import { createRenderer } from "./systems/renderer.js";
 import { Resizer } from "./systems/Resizer.js";
-import { buildWorld, buildWater } from "./components/buildWorld.js";
+import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 
 import { OrbitControls } from "./systems/OrbitControls.js";
 
@@ -24,6 +24,10 @@ class World {
 
     canvasContainer.append(renderer.domElement);
 
+    // Since the resizercalls the render function, it needs to have a freqArray argument.
+    // This will continue the most recent freqArray passed in from main.js and can be used as the argument for the render function call on resize.
+    this.currentFreqArray = null;
+
     // Create orbital controls
     const controls = new OrbitControls(camera, canvasContainer);
 
@@ -37,11 +41,11 @@ class World {
     // Initialize hook in resizer
     resizer.onResize = () => {
       // Render a new single frame if resize detected
-      this.render();
+      this.render(this.currentFreqArray);
     };
 
     // Build world meshes (stored in an array) and add to scene
-    updateables = buildWater();
+    updateables = buildUpdateables();
     meshes = [...buildWorld(), ...updateables];
     if (meshes && Array.isArray(meshes)) {
       meshes.forEach((mesh) => {
@@ -49,11 +53,16 @@ class World {
       });
     }
   }
-  // Render a single frame
-  render(accumulator, freqArray) {
-    // updateables.forEach((mesh) => {
-    //   mesh.update();
-    // });
+
+  // Takes an array of frequency data from the song, passes it to the update method of each mesh in the updateables array before rendering a single frame of the scene
+  render(freqArray) {
+    this.currentFreqArray = freqArray;
+    if (updateables && Array.isArray(updateables)) {
+      updateables.forEach((mesh) => {
+        mesh.update(freqArray);
+      });
+    }
+
     renderer.render(scene, camera);
   }
 }

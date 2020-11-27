@@ -31,10 +31,57 @@ import {
 
 import { World } from "./three_js/World.js";
 
+////////////////////////////////////////////////////////////////////////////////////////
+("use strict");
+
+// requestAnimationFrame polyfill by Erik Möller.
+// Fixes from Paul Irish, Tino Zijdel, Andrew Mao, Klemen Slavic, Darius Bacon and Joan Alba Maldonado.
+// Adapted from https://gist.github.com/paulirish/1579671 which derived from
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+// Added high resolution timing. This window.performance.now() polyfill can be used: https://gist.github.com/jalbam/cc805ac3cfe14004ecdf323159ecf40e
+// MIT license
+// Gist: https://gist.github.com/jalbam/5fe05443270fa6d8136238ec72accbc0
+(function () {
+  var vendors = ["webkit", "moz", "ms", "o"],
+    vp = null;
+  for (
+    var x = 0;
+    x < vendors.length &&
+    !window.requestAnimationFrame &&
+    !window.cancelAnimationFrame;
+    x++
+  ) {
+    vp = vendors[x];
+    window.requestAnimationFrame =
+      window.requestAnimationFrame || window[vp + "RequestAnimationFrame"];
+    window.cancelAnimationFrame =
+      window.cancelAnimationFrame ||
+      window[vp + "CancelAnimationFrame"] ||
+      window[vp + "CancelRequestAnimationFrame"];
+  }
+  if (
+    /iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) ||
+    !window.requestAnimationFrame ||
+    !window.cancelAnimationFrame
+  ) {
+    //iOS6 is buggy.
+    var lastTime = 0;
+    window.requestAnimationFrame = function (callback, element) {
+      var now = window.performance.now();
+      var nextTime = Math.max(lastTime + 16, now);
+      return setTimeout(function () {
+        callback((lastTime = nextTime));
+      }, nextTime - now);
+    };
+    window.cancelAnimationFrame = clearTimeout;
+  }
+})();
+
 ////////////////////////////////////////Constants////////////////////////////////////////
 
 // Capture the form HTML element associated with the submission form for the SoundCloud URL by the user
-const canvas = document.getElementById("animation_div");
+const canvasContainer = document.getElementById("animation_div");
 const INPUT_FORM = document.getElementById("user_form_element");
 // Capture the button HTML element associated with the play/pause button and volume up and volume down buttons.
 const PLAY_BUTTON = document.getElementById("play_pause_button");
@@ -42,9 +89,9 @@ const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 // Initialize the default track
 const DEFAULT_TRACK =
-  "https://ia902809.us.archive.org/2/items/cd_debussy-piano-works/disc1/01.18.%20Claude%20Debussy%20-%20Deux%20Arabesques%20-%20II.%20Allegretto%20scherzando_sample.mp3";
+  "https://ia802807.us.archive.org/23/items/cd_mozart_wolfgang-amadeus-mozart-richard-goode/disc1/07.%20Wolfgang%20Amadeus%20Mozart%20-%20Rondo%20in%20A%20minor%2C%20K.%20511_sample.mp3";
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
-const FREQUENCY_SAMPLESIZE = 128;
+const FREQUENCY_SAMPLESIZE = 256;
 
 ////////////////////////////////////////Global variables/objects////////////////////////////////////////
 
@@ -66,19 +113,22 @@ globalAnalyser.fftSize = FREQUENCY_SAMPLESIZE;
 let bufferLength = globalAnalyser.frequencyBinCount;
 let globalDataArray = new Uint8Array(bufferLength);
 
+// A default array with 0s in all its indices that is fed into the very first render of the animation when the application is first loaded and we have no array from actual song data yet.
+let cleanDataArray = [];
+for (let i = 0; i < FREQUENCY_SAMPLESIZE / 2; i++) {
+  cleanDataArray[i] = 0;
+}
+
 // Boolean flag indicating whether or not we want to be collecting frequency data from the song.
-let collectingTrackFrequencies = true;
+let collectingTrackFrequencies = false;
 
 ////////////////////////////////////////Global function definitions////////////////////////////////////////
 
 // Only display the Play button on the middle music player control button when the track has been fully loaded.
-globalAudio.on("load", () => {
-  displayPlayButton();
-});
 
-// Load a new instanced threeJS world
-let world = new World(canvas);
-world.render();
+// Load a new instanced threeJS world and render it using the cleanDataArray. After the animation has loaded once, we will use actual array data containing frequency information held in globalDataArray. We do this because render current requires an array argument.
+let world = new World(canvasContainer);
+world.render(cleanDataArray);
 
 // When a track is played, the below functions will be called once per frame.
 // We update the seconds elapsed of the track during playback per frame.
@@ -93,15 +143,27 @@ function callPerFrame() {
   // If we intend to collect frequency data during this frame, do so through our analyser node and store the resulting array of data in the globalDataArray
   if (collectingTrackFrequencies) {
     globalAnalyser.getByteFrequencyData(globalDataArray);
-    //console.log(globalDataArray);
 
-    // Render a single three.js frame
+    // Render a single three.js frame that is informed by data
     world.render(globalDataArray);
   }
 
   requestAnimationFrame(callPerFrame);
 }
-globalAudio.on("play", callPerFrame);
+
+callPerFrame();
+
+// When audio has loaded, for safety ensure that frequency collection flag is set to false since no music is playing until the user presses play. As such we display the play button.
+globalAudio.on("load", () => {
+  pauseFrequencyCollection();
+  displayPlayButton();
+});
+
+// When audio is playing, set the frequency collection flag to true and show the pause button to indicate the song can be paused.
+globalAudio.on("play", () => {
+  resumeFrequencyCollection();
+  displayPauseButton();
+});
 
 // When a song finishes playing "on end", change the icon on the middle button of the music player to display a Play icon. If play is clicked after this occurs, song playback will begin again from the beginning of the track.
 globalAudio.on("end", () => {
