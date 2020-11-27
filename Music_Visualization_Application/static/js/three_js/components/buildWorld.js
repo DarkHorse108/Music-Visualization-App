@@ -191,4 +191,4 @@ function getRandomFloat(lowerBound, upperBound) {
   return Math.random() * (upperBound - lowerBound) + lowerBound;
 }
 
-export { buildWorld, buildUpdateables, getRandomFloat };
+export { buildWorld, buildUpdateables, getRandomFloat, getRandomInt };
