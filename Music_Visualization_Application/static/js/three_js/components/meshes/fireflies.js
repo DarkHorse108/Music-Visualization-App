@@ -13,7 +13,7 @@ function createFireFly(fireFlyNumber) {
   const zRange = { min: -52, max: 45 };
 
   // default speed of the firefly as it travels in the positive x and z axes direction
-  const fireFlySpeed = 0.05;
+  const fireFlySpeed = 0.02;
 
   // default color in hex of a firefly
   const defaultColor = 0xcbf3f7;
