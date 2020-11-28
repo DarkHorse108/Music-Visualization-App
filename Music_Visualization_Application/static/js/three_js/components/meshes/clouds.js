@@ -60,7 +60,7 @@ function createCloud() {
   //   getRandomInt(zRange.min, zRange.max)
   // );
   cloud.position.set(
-    xRange.min,
+    getRandomInt(xRange.min, xRange.min + 5),
     getRandomInt(yRange.min, yRange.max),
     getRandomInt(zRange.min, zRange.max)
   );
