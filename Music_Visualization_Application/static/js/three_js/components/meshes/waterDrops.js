@@ -11,7 +11,7 @@ function createWaterDrop() {
   // Limits indicate the range allowed for this droplet in 3d space
   const zLimit = 38;
   const yRange = { min: 38, max: 48 };
-  const xRange = { min: -18, max: 18 };
+  const xRange = { min: -16, max: 16 };
 
   // Create a flat, memory efficient rectangular geometry that is nearly transparent
   const dropGeometry = new PlaneBufferGeometry(15, 8, 8);
