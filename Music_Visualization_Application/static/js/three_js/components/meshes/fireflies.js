@@ -114,7 +114,7 @@ function createFireFly(fireFlyNumber) {
         }
 
         // Set the opacity to correspond to the frequency intensity, with all fireflies with data having a minimum of 0.6 opacity so they are visible, but become much more so the higher the frequency intensity they receive.
-        mesh.material.opacity = intensity + 0.6;
+        mesh.material.opacity = intensity + 0.7;
 
         // Since the if statements above divide the fireflies by color and y Axis jump potential, they actual Y axis jump value is calculated here depending on which category the firefly belongs to, high, mid, or low frequencies.
         mesh.position.y = randomY + intensity * mesh.maxGain;
