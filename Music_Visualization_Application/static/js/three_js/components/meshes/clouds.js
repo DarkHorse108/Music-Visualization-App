@@ -25,7 +25,7 @@ function createCloud() {
   let cloudMaterial = new MeshBasicMaterial({
     color: 0x989898,
     transparent: true,
-    opacity: 0.16,
+    opacity: 0.1,
     side: DoubleSide,
   });
 
@@ -65,9 +65,12 @@ function createCloud() {
     getRandomInt(zRange.min, zRange.max)
   );
 
+  console.log("hi");
+
   cloud.update = () => {
-    decayOpacity(cloud, 0.00005);
-    cloud.position.x += getRandomFloat(0.03, 0.07);
+    decayOpacity(cloud, 0.00001);
+    cloud.position.x += getRandomFloat(0.01, 0.06);
+    cloud.rotation.y += 0.0001;
 
     if (cloud.position.x >= xRange.max) {
       cloud.position.x = xRange.min;
@@ -109,7 +112,7 @@ function decayOpacity(groupMesh, opacityDecay) {
 function resetOpacity(groupMesh) {
   groupMesh.children.forEach((child) => {
     if (child.material) {
-      child.material.opacity = 0.16;
+      child.material.opacity = 0.1;
     }
   });
 }
