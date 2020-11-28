@@ -5,7 +5,7 @@ import { createWater } from "./meshes/water.js";
 import { createWaterfall } from "./meshes/waterfall.js";
 import { createWall } from "./meshes/wall.js";
 import { createFireFly } from "./meshes/fireflies.js";
-import { createSky } from "./meshes/clouds.js";
+import { createCloud } from "./meshes/clouds.js";
 import { createMoon } from "./meshes/moon.js";
 import { createWaterDrop } from "./meshes/waterDrops.js";
 
@@ -62,7 +62,12 @@ function buildUpdateables() {
 
   // Create the sky made up of the given number of cloud units
   const numberOfClouds = 20;
-  updateablesArray.push(createSky(numberOfClouds));
+  let newCloud;
+  for (let i = 0; i < numberOfClouds; i++) {
+    newCloud = createCloud();
+    updateablesArray.push(newCloud);
+  }
+  // updateablesArray.push(createSky(numberOfClouds));
 
   // Create the total number of firefly meshes and push them to the updateables array
   const totalFireFlies = 128;

@@ -5,15 +5,15 @@ import {
   MeshBasicMaterial,
   DoubleSide,
 } from "../../three.module.js";
-import { getRandomInt } from "../buildWorld.js";
+import { getRandomInt, getRandomFloat } from "../buildWorld.js";
 
 // Creating clouds as groupings of Octahedron meshes,
 // Inspired by the cloud generating algorithm found on a three.js tutorial by Karim Maaloul
 // at https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
 function createCloud() {
-  const xRange = { min: -45, max: 10 };
+  const xRange = { min: -45, max: 20 };
   const yRange = { min: 70, max: 72 };
-  const zRange = { min: -20, max: 30 };
+  const zRange = { min: -40, max: 40 };
 
   // Create the grouping that will hold the meshes that make up a single cloud
   let cloud = new Group();
@@ -25,7 +25,7 @@ function createCloud() {
   let cloudMaterial = new MeshBasicMaterial({
     color: 0x989898,
     transparent: true,
-    opacity: 0.2,
+    opacity: 0.16,
     side: DoubleSide,
   });
 
@@ -39,7 +39,7 @@ function createCloud() {
     // Create a random position for the cloud piece in 3d space within this unit
     cloudMesh.position.x = Math.random() * 30;
     cloudMesh.position.y = Math.random() * 3;
-    cloudMesh.position.z = Math.random() * 2;
+    cloudMesh.position.z = Math.random() * 20;
 
     // Rotate the octahedron around its z and y axes to give it some variation
     cloudMesh.rotation.z = Math.random() * Math.PI * 2;
@@ -54,11 +54,26 @@ function createCloud() {
   }
 
   // Set the cloud made up of cloud units into a random x, y, z coordinate in 3d space based on our desired limitations along the axes
+  // cloud.position.set(
+  //   getRandomInt(xRange.min, xRange.max),
+  //   getRandomInt(yRange.min, yRange.max),
+  //   getRandomInt(zRange.min, zRange.max)
+  // );
   cloud.position.set(
-    getRandomInt(xRange.min, xRange.max),
+    xRange.min,
     getRandomInt(yRange.min, yRange.max),
     getRandomInt(zRange.min, zRange.max)
   );
+
+  cloud.update = () => {
+    decayOpacity(cloud, 0.00005);
+    cloud.position.x += getRandomFloat(0.03, 0.07);
+
+    if (cloud.position.x >= xRange.max) {
+      cloud.position.x = xRange.min;
+      resetOpacity(cloud);
+    }
+  };
 
   // Return the overarching cloud unit
   return cloud;
@@ -66,21 +81,37 @@ function createCloud() {
 
 // Create an entire grouping of the above clouds as a "sky" allowing us to manipulate all clouds at once
 // Each sky contains cloudCount number of cloud units within it.
-function createSky(cloudCount) {
-  // This group/container will hold all clouds as a single mesh grouping
-  let sky = new Group();
-  // Add to this mesh the desired number of clouds
-  for (let i = 0; i < cloudCount; i++) {
-    sky.add(createCloud());
-  }
+// function createSky(cloudCount) {
+// This group/container will hold all clouds as a single mesh grouping
+// let sky = new Group();
+// Add to this mesh the desired number of clouds
+// for (let i = 0; i < cloudCount; i++) {
+//   sky.add(createCloud());
+// }
 
-  // Set the update function for the sky to be a rotation around its own y axis at the given speed.
-  sky.update = () => {
-    sky.rotation.y += 0.0004;
-  };
+// Set the update function for the sky to be a rotation around its own y axis at the given speed.
+// sky.update = () => {
+//   sky.rotation.y += 0.0004;
+// };
 
-  // Return the sky mesh as a whole that can be manipulated
-  return sky;
+// Return the sky mesh as a whole that can be manipulated
+// return sky;
+// }
+
+function decayOpacity(groupMesh, opacityDecay) {
+  groupMesh.children.forEach((child) => {
+    if (child.material) {
+      child.material.opacity -= opacityDecay;
+    }
+  });
 }
 
-export { createSky };
+function resetOpacity(groupMesh) {
+  groupMesh.children.forEach((child) => {
+    if (child.material) {
+      child.material.opacity = 0.16;
+    }
+  });
+}
+
+export { createCloud };
