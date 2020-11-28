@@ -61,7 +61,7 @@ function buildUpdateables() {
   updateablesArray.push(createWater());
 
   // Create the sky made up of the given number of cloud units
-  const numberOfClouds = 15;
+  const numberOfClouds = 20;
   updateablesArray.push(createSky(numberOfClouds));
 
   // Create the total number of firefly meshes and push them to the updateables array
