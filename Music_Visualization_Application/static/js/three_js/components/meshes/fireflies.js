@@ -8,7 +8,7 @@ import { getRandomFloat, getRandomInt } from "../buildWorld.js";
 function createFireFly(fireFlyNumber) {
   // Allowable x, y, and z range for each firefly
   const xRange = { min: -45, max: 48 };
-  const yRange = { min: 4, max: 35 };
+  const yRange = { min: 4, max: 32 };
   const zRange = { min: -52, max: 45 };
 
   // default speed of the firefly as it travels in the positive x and z axes direction
