@@ -65,8 +65,6 @@ function createCloud() {
     getRandomInt(zRange.min, zRange.max)
   );
 
-  console.log("hi");
-
   cloud.update = () => {
     decayOpacity(cloud, 0.00001);
     cloud.position.x += getRandomFloat(0.01, 0.06);
