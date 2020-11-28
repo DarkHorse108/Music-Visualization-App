@@ -11,7 +11,7 @@ import { getRandomInt, getRandomFloat } from "../buildWorld.js";
 // Inspired by the cloud generating algorithm found on a three.js tutorial by Karim Maaloul
 // at https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
 function createCloud() {
-  const xRange = { min: -45, max: 20 };
+  const xRange = { min: -45, max: 18 };
   const yRange = { min: 70, max: 72 };
   const zRange = { min: -40, max: 40 };
 
@@ -67,7 +67,7 @@ function createCloud() {
 
   cloud.update = () => {
     decayOpacity(cloud, 0.00001);
-    cloud.position.x += getRandomFloat(0.01, 0.06);
+    cloud.position.x += getRandomFloat(0.01, 0.05);
     cloud.rotation.y += 0.0001;
 
     if (cloud.position.x >= xRange.max) {
