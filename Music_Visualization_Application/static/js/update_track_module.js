@@ -5,7 +5,7 @@ function loadTrackArt(SoundCloud_track) {
 
 // Updates the html h6 element containing the track title with the song title provided in the SoundCloud_track object. If the track title is longer than 45 characters, it will have a marquee effect by adding the marquee class to it.
 function loadTrackTitle(SoundCloud_track) {
-  if (SoundCloud_track.title.length > 45) {
+  if (SoundCloud_track.title.length > 44) {
     $("#track_title_outer").addClass("marquee");
   } else {
     $("#track_title_outer").removeClass("marquee");
@@ -15,7 +15,7 @@ function loadTrackTitle(SoundCloud_track) {
 
 // Updates the html h6 element containing the track artist with the song artist provided in the SoundCloud_track object. If the track artist is longer than 45 characters, it will have a marquee effect by adding the marquee class to it.
 function loadTrackArtist(SoundCloud_track) {
-  if (SoundCloud_track.artist.length > 45) {
+  if (SoundCloud_track.artist.length > 44) {
     $("#track_artist_outer").addClass("marquee");
   } else {
     $("#track_artist_outer").removeClass("marquee");
