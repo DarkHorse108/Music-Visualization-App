@@ -25,7 +25,7 @@ function createCloud() {
   let cloudMaterial = new MeshBasicMaterial({
     color: 0x989898,
     transparent: true,
-    opacity: 0.1,
+    opacity: 0.08,
     side: DoubleSide,
   });
 
@@ -110,7 +110,7 @@ function decayOpacity(groupMesh, opacityDecay) {
 function resetOpacity(groupMesh) {
   groupMesh.children.forEach((child) => {
     if (child.material) {
-      child.material.opacity = 0.1;
+      child.material.opacity = 0.08;
     }
   });
 }
