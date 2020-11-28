@@ -19,7 +19,7 @@ function createWaterDrop() {
     color: 0x6092c1,
     side: DoubleSide,
     transparent: true,
-    opacity: 0.015,
+    opacity: 0.012,
   });
 
   // Create the mesh for this water "droplet"
