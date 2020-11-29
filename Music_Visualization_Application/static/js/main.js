@@ -45,6 +45,13 @@ import {
   getSecondsElapsed,
   getPercentageElapsed,
 } from "./audio_module.js";
+
+import {
+  playButtonClick,
+  volumeUpButtonClick,
+  volumeDownButtonClick,
+} from "player_event_listeners_module.js";
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ("use strict");
 
@@ -96,21 +103,19 @@ INPUT_FORM.addEventListener("submit", function (event) {
 
   let user_url = document.getElementById("user_input_url").value;
 
-  // Reset the form and remove any text entered by the user in the form, as we have already captured it in user_url. If there is any error message to the user currently being shown, remove it to indicate to the user that their input is being processed.
+  // Reset the form and remove any text entered by the user in the form, as we have already captured it in user_url.
   INPUT_FORM.reset();
+
+  //If there is any error message to the user currently being shown, remove it to indicate to the user that their input is being processed.
   clearErrorMessage();
 
   // Take the URL provided by the user, and your SoundCloud client id, and request information about the track using requestTrack() and save the returned object in var "results".
   // If the request was successful, update the front-end with the information that was returned.
   const results = requestTrack(user_url, client_id)
     .then((SoundCloud_track) => {
-      // Pause collection of frequency data
+      // Pause collection of frequency data, stop playing audio, and load the new track
       globalAudio.pauseFrequencyCollection();
-
-      // Stop playing audio
       globalAudio.stop();
-
-      // Load the new track
       globalAudio.changeSrc(SoundCloud_track.streamSource);
 
       // Update the Music Player with the new track's information, such as artist, title, total duration.
@@ -128,27 +133,7 @@ INPUT_FORM.addEventListener("submit", function (event) {
     });
 });
 
-// Listen for click activity on the play button.
-// If music is currently playing and the button is pressed, pause the loaded track, and change the button icon to the Play icon to indicate that the music has been stopped but can be resumed, and stop collection of frequency data for the song.
-// If music is not currently playing and the button is pressed, play the loaded track, and change the button icon to the Pause icon to indicate that the music is playing now but can be paused, and resume collection of frequency data for the song.
-PLAY_BUTTON.addEventListener("click", function (event) {
-  if (globalAudio.playing()) {
-    globalAudio.pause();
-    globalAudio.pauseFrequencyCollection();
-    displayPlayButton();
-  } else if (globalAudio.state() === "loaded") {
-    globalAudio.play();
-    globalAudio.resumeFrequencyCollection();
-    displayPauseButton();
-  }
-});
-
-// Event listener to increase volume on click of the volume up button
-VOLUME_UP_BUTTON.addEventListener("click", function (event) {
-  globalAudio.volume(globalAudio.volume() + 0.2);
-});
-
-// Event listener to decrease volume on click of the volume down button
-VOLUME_DOWN_BUTTON.addEventListener("click", function (event) {
-  globalAudio.volume(globalAudio.volume() - 0.2);
-});
+// Add event listeners for play/pause and volume buttons
+PLAY_BUTTON.addEventListener("click", playButtonClick);
+VOLUME_UP_BUTTON.addEventListener("click", volumeUpButtonClick);
+VOLUME_DOWN_BUTTON.addEventListener("click", volumeDownButtonClick);
