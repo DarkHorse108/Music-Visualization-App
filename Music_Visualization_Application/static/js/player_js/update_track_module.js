@@ -31,8 +31,8 @@ function loadTrackDuration(SoundCloud_track) {
 // Converts an argument representing units of time in seconds, into a format reflecting minutes:seconds as a string and returns it.
 // This snippet was taken from the Howler.js documentation's music player example found here: https://github.com/goldfire/howler.js/blob/master/examples/player/player.js
 function formatTime(total_seconds_elapsed) {
-  var formatted_minutes = Math.floor(total_seconds_elapsed / 60) || 0;
-  var formatted_seconds = total_seconds_elapsed - formatted_minutes * 60 || 0;
+  let formatted_minutes = Math.floor(total_seconds_elapsed / 60) || 0;
+  let formatted_seconds = total_seconds_elapsed - formatted_minutes * 60 || 0;
 
   return (
     formatted_minutes +
@@ -43,21 +43,23 @@ function formatTime(total_seconds_elapsed) {
 }
 
 // Takes an argument representing units of time in seconds, converts it into minutes:seconds format and places that value as the value of the paragraph element with id "track_current_time".
-export function displayTimeElapsed(seconds_elapsed) {
+function displayTimeElapsed(seconds_elapsed) {
   let formatted_time = formatTime(Math.round(seconds_elapsed));
   $("#track_current_time").html(formatted_time);
 }
 
 // Takes a numerical (integer or float) value as an argument, representing a percentage. This value is placed as the value of the range input element with id "track_seeker" which shows the
 // progress of the played track as a progress/seeker bar.
-export function displayProgressBarElapsed(percentage_elapsed) {
+function displayProgressBarElapsed(percentage_elapsed) {
   $("#track_seeker").val(percentage_elapsed);
 }
 
 // Wrapper function that updates all relevant information regarding the audio, art, track title, and track artist using the SOundCloud_track object
-export function updateMusicPlayer(SoundCloud_track) {
+function updateMusicPlayer(SoundCloud_track) {
   loadTrackArt(SoundCloud_track);
   loadTrackTitle(SoundCloud_track);
   loadTrackArtist(SoundCloud_track);
   loadTrackDuration(SoundCloud_track);
 }
+
+export { displayTimeElapsed, displayProgressBarElapsed, updateMusicPlayer };
