@@ -13,7 +13,7 @@ import { getRandomInt, getRandomFloat } from "../buildWorld.js";
 function createCloud() {
   const xRange = { min: -45, max: 18 };
   const yRange = { min: 70, max: 72 };
-  const zRange = { min: -40, max: 40 };
+  const zRange = { min: -40, max: 35 };
 
   // Create the grouping that will hold the meshes that make up a single cloud
   let cloud = new Group();
