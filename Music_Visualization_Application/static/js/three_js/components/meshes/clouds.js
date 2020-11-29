@@ -66,9 +66,8 @@ function createCloud() {
   );
 
   cloud.update = () => {
-    decayOpacity(cloud, 0.00001);
-    cloud.position.x += getRandomFloat(0.01, 0.05);
-    cloud.rotation.y += 0.0001;
+    decayOpacity(cloud, 0.000006);
+    cloud.position.x += getRandomFloat(0.009, 0.02);
 
     if (cloud.position.x >= xRange.max) {
       cloud.position.x = xRange.min;
