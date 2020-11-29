@@ -50,7 +50,7 @@ import {
   playButtonClick,
   volumeUpButtonClick,
   volumeDownButtonClick,
-} from "player_event_listeners_module.js";
+} from "./player_js/player_event_listeners_module.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ("use strict");
