@@ -1,7 +1,10 @@
 // Import Howler Library for audio playback handling
 import "./howler_js/howler.js";
 
-import { displayPlayButton } from "./player_js/update_buttons_module.js";
+import {
+  displayPlayButton,
+  displayPauseButton,
+} from "./player_js/update_buttons_module.js";
 
 import { DEFAULT_TRACK, FREQUENCY_SAMPLESIZE } from "./constants.js";
 
