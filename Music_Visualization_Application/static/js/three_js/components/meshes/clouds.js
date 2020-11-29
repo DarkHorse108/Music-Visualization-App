@@ -71,6 +71,7 @@ function createCloud() {
 
     if (cloud.position.x >= xRange.max) {
       cloud.position.x = xRange.min;
+      cloud.position.z = getRandomInt(zRange.min, zRange.max);
       resetOpacity(cloud);
     }
   };
