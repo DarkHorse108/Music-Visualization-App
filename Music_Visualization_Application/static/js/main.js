@@ -74,6 +74,8 @@ import {
   let opacity = 0.0; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
   let world; // References three.js world object
 
+  clearErrorMessage();
+
   // Polyfill requestAnimationFrame for smoother animation
   animation_polyfill();
 
@@ -83,12 +85,15 @@ import {
   VOLUME_UP_BUTTON.addEventListener("click", volumeUpButtonClick);
   VOLUME_DOWN_BUTTON.addEventListener("click", volumeDownButtonClick);
 
-  // Instantiate a three.js world object and fade into view
-  world = new World(canvasContainer);
-  fadeInWorld();
-
-  // Start animation
-  callPerFrame();
+  // Attempt to instantiate world, fade it in, and start animation
+  try {
+    world = await createWorld(canvasContainer);
+    fadeInWorld();
+    callPerFrame();
+  } catch (err) {
+    console.log(err.message);
+    alert(`Error encountered: ${err.message}`);
+  }
 
   /******************************************************************************
    **
@@ -96,10 +101,26 @@ import {
    **
    *******************************************************************************/
 
-  // fadeInWorld() fades the three.js world onto the canvas
+  // createWorld() instantiates a new World object
+  async function createWorld(canvasContainer) {
+    return new World(canvasContainer);
+  }
+
+  // fadeInWorld() fades the three.js world into view
   function fadeInWorld() {
     opacity += fadeSteps;
     if (opacity < 1.0) {
+      world.renderOpacity(opacity);
+      requestAnimationFrame(fadeInWorld);
+    } else {
+      world.renderStatic();
+    }
+  }
+
+  // fadeOutWorld() fades the three.js world out of view
+  function fadeOutWorld() {
+    opacity -= fadeSteps;
+    if (opacity >= 1.0) {
       world.renderOpacity(opacity);
       requestAnimationFrame(fadeInWorld);
     } else {
