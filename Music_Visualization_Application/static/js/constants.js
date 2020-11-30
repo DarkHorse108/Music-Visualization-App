@@ -11,6 +11,9 @@ const DEFAULT_TRACK =
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
 const FREQUENCY_SAMPLESIZE = 256;
 
+// Set the opacity fading increments
+const FADE_STEPS = 0.02;
+
 export {
   canvasContainer,
   INPUT_FORM,
@@ -19,4 +22,5 @@ export {
   VOLUME_DOWN_BUTTON,
   DEFAULT_TRACK,
   FREQUENCY_SAMPLESIZE,
+  FADE_STEPS,
 };

@@ -35,14 +35,14 @@ import { World } from "./three_js/World.js";
 
 import { animation_polyfill } from "./animation_polyfill.js";
 
-// Import DOM elements
+// Import constants
 import {
   canvasContainer,
   INPUT_FORM,
   PLAY_BUTTON,
   VOLUME_UP_BUTTON,
   VOLUME_DOWN_BUTTON,
-  FREQUENCY_SAMPLESIZE,
+  FADE_STEPS,
 } from "./constants.js";
 
 // Import global audio objects and functions for handling the track
@@ -70,11 +70,8 @@ import {
 ("use strict");
 
 (function main() {
-  const fadeSteps = 0.02; // Set the opacity fading increments
-  let opacity; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
+  let opacity = 0.0; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
   let world; // References three.js world object
-
-  clearErrorMessage();
 
   // Polyfill requestAnimationFrame for smoother animation
   animation_polyfill();
@@ -85,10 +82,9 @@ import {
   VOLUME_UP_BUTTON.addEventListener("click", volumeUpButtonClick);
   VOLUME_DOWN_BUTTON.addEventListener("click", volumeDownButtonClick);
 
-  // Attempt to instantiate world, fade it in, and start animation
+  // Instantiate a new world, fade it into view, and start animation
   try {
     world = new World(canvasContainer);
-    opacity = 0.0;
     fadeInWorld();
     callPerFrame();
   } catch (err) {
@@ -104,24 +100,14 @@ import {
 
   // fadeInWorld() fades the three.js world into view
   function fadeInWorld() {
-    opacity += fadeSteps;
+    opacity += FADE_STEPS;
     if (opacity < 1.0) {
+      // Render world with partial transparency until opacity >= 1.0
       world.renderOpacity(opacity);
       requestAnimationFrame(fadeInWorld);
     } else {
       // Render world completely opaque
       world.renderOpacity(1.0);
-    }
-  }
-
-  // fadeOutWorld() fades the three.js world out of view
-  function fadeOutWorld() {
-    opacity -= fadeSteps;
-    if (opacity >= 0.0) {
-      world.renderOpacity(opacity);
-      requestAnimationFrame(fadeInWorld);
-    } else {
-      world.renderStatic();
     }
   }
 
