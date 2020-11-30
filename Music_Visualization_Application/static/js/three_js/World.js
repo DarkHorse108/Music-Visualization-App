@@ -5,13 +5,12 @@ import { createRenderer } from "./systems/renderer.js";
 import { Resizer } from "./systems/Resizer.js";
 import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 
-import { OrbitControls } from "./systems/OrbitControls.js";
+// import { OrbitControls } from "./systems/OrbitControls.js";
 
 // Module-scoped variables to prevent access from outside module
 let camera;
 let scene;
 let renderer;
-let loop;
 let meshes;
 let updateables;
 
@@ -22,14 +21,11 @@ class World {
     scene = createScene();
     renderer = createRenderer();
 
+    // Add the world to the canvas
     canvasContainer.append(renderer.domElement);
 
-    // Since the resizercalls the render function, it needs to have a freqArray argument.
-    // This will continue the most recent freqArray passed in from main.js and can be used as the argument for the render function call on resize.
-    this.currentFreqArray = null;
-
     // Create orbital controls
-    const controls = new OrbitControls(camera, canvasContainer);
+    // const controls = new OrbitControls(camera, canvasContainer);
 
     // Create directional and hemisphere lights and add to scene
     const { directionalLight, hemisphereLight } = createLights();
@@ -41,7 +37,7 @@ class World {
     // Initialize hook in resizer
     resizer.onResize = () => {
       // Render a new single frame if resize detected
-      this.render(this.currentFreqArray);
+      this.renderStatic();
     };
 
     // Build world meshes (stored in an array) and add to scene
@@ -54,15 +50,39 @@ class World {
     }
   }
 
+  // Render a single frame of only static (non-animating) meshes
+  renderStatic() {
+    renderer.render(scene, camera);
+  }
+
   // Takes an array of frequency data from the song, passes it to the update method of each mesh in the updateables array before rendering a single frame of the scene
-  render(freqArray) {
-    this.currentFreqArray = freqArray;
+  renderUpdateables(freqArray) {
     if (updateables && Array.isArray(updateables)) {
       updateables.forEach((mesh) => {
         mesh.update(freqArray);
       });
     }
 
+    // Render a single frame
+    renderer.render(scene, camera);
+  }
+
+  // Takes a float representing opacity, sets all meshes to transparent, then increments opacity until 1.0 (opaque)
+  renderFade(opacity) {
+    meshes.forEach((mesh) => {
+      // For grouped meshes, iterate through child meshes
+      if (mesh.type === "Group") {
+        mesh.children.forEach((childMesh) => {
+          childMesh.material.transparent = true;
+          childMesh.material.opacity = opacity;
+        });
+      } else {
+        mesh.material.transparent = true;
+        mesh.material.opacity = opacity;
+      }
+    });
+
+    // Render a single frame
     renderer.render(scene, camera);
   }
 }

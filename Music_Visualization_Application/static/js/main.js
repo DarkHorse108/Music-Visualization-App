@@ -1,3 +1,9 @@
+/******************************************************************************
+ **
+ **  Imports
+ **
+ *******************************************************************************/
+
 // Import the SoundCloud client_id associated with your application
 import { client_id } from "./config.js";
 
@@ -55,36 +61,51 @@ import {
   volumeDownButtonClick,
 } from "./player_js/player_event_listeners_module.js";
 
-//
-//
-//
+/******************************************************************************
+ **
+ **  main()
+ **
+ *******************************************************************************/
 
 ("use strict");
 
 (async function main() {
+  const fadeSteps = 0.02; // Set the opacity fading increments
+  let opacity = 0.0; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
+  let world; // References three.js world object
+
   // Polyfill requestAnimationFrame for smoother animation
   animation_polyfill();
 
-  // Add an eventlistener when the form has been submitted (i.e. when the submit button is pressed).
+  // Add event listeners for form submission, play/pause button, and volume buttons
   INPUT_FORM.addEventListener("submit", inputFormSubmit);
-
-  // Add event listeners for play/pause and volume buttons
   PLAY_BUTTON.addEventListener("click", playButtonClick);
   VOLUME_UP_BUTTON.addEventListener("click", volumeUpButtonClick);
   VOLUME_DOWN_BUTTON.addEventListener("click", volumeDownButtonClick);
 
-  // A default array with 0s in all its indices that is fed into the very first render of the animation when the application is first loaded and we have no array from actual song data yet.
-  let cleanDataArray = [];
-  for (let i = 0; i < FREQUENCY_SAMPLESIZE / 2; i++) {
-    cleanDataArray[i] = 0;
-  }
-
-  // Load a new instanced threeJS world and render it using the cleanDataArray. After the animation has loaded once, we will use actual array data containing frequency information held in globalDataArray. We do this because render current requires an array argument.
-  let world = new World(canvasContainer);
-  world.render(cleanDataArray);
+  // Instantiate a three.js world object and fade into view
+  world = new World(canvasContainer);
+  fadeInWorld();
 
   // Start animation
   callPerFrame();
+
+  /******************************************************************************
+   **
+   **  Helper Functions
+   **
+   *******************************************************************************/
+
+  // fadeInWorld() fades the three.js world onto the canvas
+  function fadeInWorld() {
+    opacity += fadeSteps;
+    if (opacity < 1.0) {
+      world.renderFade(opacity);
+      requestAnimationFrame(fadeInWorld);
+    } else {
+      world.renderStatic();
+    }
+  }
 
   // When a track is played, the below functions will be called once per frame.
   // We update the seconds elapsed of the track during playback per frame.
@@ -101,7 +122,7 @@ import {
       globalAnalyser.getByteFrequencyData(globalDataArray);
 
       // Render a single three.js frame that is informed by data
-      world.render(globalDataArray);
+      world.renderUpdateables(globalDataArray);
     }
 
     // Recursively call callPerFrame() to render animation

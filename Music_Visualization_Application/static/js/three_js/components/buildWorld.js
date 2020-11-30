@@ -4,7 +4,6 @@ import { createGrass } from "./meshes/grass.js";
 import { createWater } from "./meshes/water.js";
 import { createWaterfall } from "./meshes/waterfall.js";
 import { createWall } from "./meshes/wall.js";
-import { createParticles } from "./meshes/particles.js";
 import { createFireFly } from "./meshes/fireflies.js";
 
 function buildWorld() {
