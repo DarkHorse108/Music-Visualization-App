@@ -68,22 +68,31 @@ class World {
   }
 
   // Takes a float representing opacity, sets all meshes to transparent, then increments opacity until 1.0 (opaque)
-  renderFade(opacity) {
+  renderOpacity(opacity) {
     meshes.forEach((mesh) => {
       // For grouped meshes, iterate through child meshes
       if (mesh.type === "Group") {
         mesh.children.forEach((childMesh) => {
-          childMesh.material.transparent = true;
-          childMesh.material.opacity = opacity;
+          setTransparency(childMesh, opacity);
         });
       } else {
-        mesh.material.transparent = true;
-        mesh.material.opacity = opacity;
+        setTransparency(mesh, opacity);
       }
     });
 
     // Render a single frame
     renderer.render(scene, camera);
+
+    // Helper function to set both transparency and opacity of a mesh
+    function setTransparency(mesh, opacity) {
+      if (opacity < 1.0) {
+        mesh.material.transparent = true;
+        mesh.material.opacity = opacity;
+      } else {
+        mesh.material.transparent = false;
+        mesh.material.opacity = 1.0; // 1.0 designates no transparency
+      }
+    }
   }
 }
 

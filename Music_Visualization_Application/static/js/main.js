@@ -100,7 +100,7 @@ import {
   function fadeInWorld() {
     opacity += fadeSteps;
     if (opacity < 1.0) {
-      world.renderFade(opacity);
+      world.renderOpacity(opacity);
       requestAnimationFrame(fadeInWorld);
     } else {
       world.renderStatic();
