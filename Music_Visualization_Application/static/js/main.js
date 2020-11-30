@@ -69,9 +69,9 @@ import {
 
 ("use strict");
 
-(async function main() {
+(function main() {
   const fadeSteps = 0.02; // Set the opacity fading increments
-  let opacity = 0.0; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
+  let opacity; // Set starting opacity (0.0 = transparent, 1.0 = opaque)
   let world; // References three.js world object
 
   clearErrorMessage();
@@ -87,7 +87,8 @@ import {
 
   // Attempt to instantiate world, fade it in, and start animation
   try {
-    world = await createWorld(canvasContainer);
+    world = new World(canvasContainer);
+    opacity = 0.0;
     fadeInWorld();
     callPerFrame();
   } catch (err) {
@@ -101,11 +102,6 @@ import {
    **
    *******************************************************************************/
 
-  // createWorld() instantiates a new World object
-  async function createWorld(canvasContainer) {
-    return new World(canvasContainer);
-  }
-
   // fadeInWorld() fades the three.js world into view
   function fadeInWorld() {
     opacity += fadeSteps;
@@ -113,14 +109,15 @@ import {
       world.renderOpacity(opacity);
       requestAnimationFrame(fadeInWorld);
     } else {
-      world.renderStatic();
+      // Render world completely opaque
+      world.renderOpacity(1.0);
     }
   }
 
   // fadeOutWorld() fades the three.js world out of view
   function fadeOutWorld() {
     opacity -= fadeSteps;
-    if (opacity >= 1.0) {
+    if (opacity >= 0.0) {
       world.renderOpacity(opacity);
       requestAnimationFrame(fadeInWorld);
     } else {
