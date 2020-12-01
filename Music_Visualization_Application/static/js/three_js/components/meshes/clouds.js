@@ -82,25 +82,6 @@ function createCloud() {
   return cloud;
 }
 
-// Create an entire grouping of the above clouds as a "sky" allowing us to manipulate all clouds at once
-// Each sky contains cloudCount number of cloud units within it.
-// function createSky(cloudCount) {
-// This group/container will hold all clouds as a single mesh grouping
-// let sky = new Group();
-// Add to this mesh the desired number of clouds
-// for (let i = 0; i < cloudCount; i++) {
-//   sky.add(createCloud());
-// }
-
-// Set the update function for the sky to be a rotation around its own y axis at the given speed.
-// sky.update = () => {
-//   sky.rotation.y += 0.0004;
-// };
-
-// Return the sky mesh as a whole that can be manipulated
-// return sky;
-// }
-
 function decayOpacity(groupMesh, opacityDecay) {
   groupMesh.children.forEach((child) => {
     if (child.material) {
