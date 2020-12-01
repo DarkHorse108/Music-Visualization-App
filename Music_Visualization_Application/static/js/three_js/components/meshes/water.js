@@ -39,7 +39,7 @@ function createWater() {
   // inspiration for this was taken from a question regarding pivoting meshes side to side found here:
   // https://stackoverflow.com/questions/40966828/three-js-rotate-an-object-back-and-forth-between-two-azimuth-angles
   water.update = (freqArray) => {
-    water.position.y -= Math.sin(Date.now() * 0.0015) * Math.PI * 0.006;
+    water.position.y -= Math.sin(Date.now() * 0.005) * Math.PI * 0.005;
   };
 
   return water;
