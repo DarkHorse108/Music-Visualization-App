@@ -6,7 +6,7 @@ import {
   Mesh,
 } from "../../three.module.js";
 
-const dimensions = [40, 55, 10]; // dimensions represented as [x, y, z]
+const dimensions = [40, 55, 14]; // dimensions represented as [x, y, z]
 
 function createWaterfall(x, y, z) {
   // Create waterfall geometry
