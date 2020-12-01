@@ -76,6 +76,8 @@ function createCloud() {
     }
   };
 
+  cloud.cloudBlock = true;
+
   // Return the overarching cloud unit
   return cloud;
 }
