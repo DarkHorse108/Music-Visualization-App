@@ -14,6 +14,13 @@ async function requestTrack(url, id) {
     // Asynchronously parse json
     const data = await getTrackData.json();
 
+    // Throw error if the provided url is that of a playlist
+    if (data.kind === "playlist") {
+      throw new Error(
+        "Please submit a url to a single track and not an entire playlist."
+      );
+    }
+
     // Asynchronously request track header to acquire url of mp3
     const mp3Stream = await fetch(`${data.stream_url}?client_id=${id}`);
 
