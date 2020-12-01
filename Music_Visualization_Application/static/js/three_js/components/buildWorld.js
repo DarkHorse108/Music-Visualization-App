@@ -4,8 +4,10 @@ import { createGrass } from "./meshes/grass.js";
 import { createWater } from "./meshes/water.js";
 import { createWaterfall } from "./meshes/waterfall.js";
 import { createWall } from "./meshes/wall.js";
-import { createParticles } from "./meshes/particles.js";
 import { createFireFly } from "./meshes/fireflies.js";
+import { createCloud } from "./meshes/clouds.js";
+import { createMoon } from "./meshes/moon.js";
+import { createWaterDrop } from "./meshes/waterDrops.js";
 
 function buildWorld() {
   // Array to store created meshes
@@ -42,22 +44,48 @@ function buildWorld() {
   // Generate grass blocks and add to scene
   generateBlocks(meshArray, createGrass, -2.5, 3);
 
+  meshArray.push(createMoon());
+
   return meshArray;
 }
 
 //Creates an array of meshes that need to be updated/have their update method called.
 // Pushes each new mesh on to the end of said array.
 //First creates the water mesh, then pushes 128 firefly meshes on to the end and returns the whole array.
+// We also create a sky containing 20 cloud units
 function buildUpdateables() {
+  // Contains all meshes that need to have their update function called each frame
   const updateablesArray = [];
-  let newFireFly;
+
+  // Create the ground level water mesh
   updateablesArray.push(createWater());
 
-  for (let i = 0; i < 128; i++) {
+  // Create the sky made up of the given number of cloud units
+  const numberOfClouds = 20;
+  let newCloud;
+  for (let i = 0; i < numberOfClouds; i++) {
+    newCloud = createCloud();
+    updateablesArray.push(newCloud);
+  }
+  // updateablesArray.push(createSky(numberOfClouds));
+
+  // Create the total number of firefly meshes and push them to the updateables array
+  const totalFireFlies = 128;
+  let newFireFly;
+  for (let i = 0; i < totalFireFlies; i++) {
     newFireFly = createFireFly(i);
     updateablesArray.push(newFireFly);
   }
 
+  // Create the total number of waterdrop meshes belonging to the waterfall and push them to the updateables array
+  const totalWaterDrops = 30;
+  let newWaterDrop;
+  for (let i = 0; i < totalWaterDrops; i++) {
+    newWaterDrop = createWaterDrop();
+    updateablesArray.push(newWaterDrop);
+  }
+
+  // Return the array of meshes that need to be updated every frame
   return updateablesArray;
 }
 

@@ -1,5 +1,5 @@
 import {
-  BoxGeometry,
+  BoxBufferGeometry,
   MeshToonMaterial,
   DoubleSide,
   Mesh,
@@ -9,24 +9,7 @@ const dimensions = [102, 102, 28]; // dimensions represented as [x, y, z]
 
 function createWater() {
   // Create geometry of water mesh
-  const geometry = new BoxGeometry(...dimensions);
-
-  // Adjust each vertex of the water Geometry to a random place in the x,y,z plane within reasonable distance from where it is generated.
-  for (let i = 0; i < geometry.vertices.length; i++) {
-    let vertex = geometry.vertices[i];
-    if (vertex.z > 0) {
-      vertex.z += Math.random() * 2 - 1;
-    }
-
-    vertex.x += Math.random();
-    vertex.y += Math.random();
-
-    vertex.wave = Math.random() * 100;
-  }
-
-  // Smoothes the flat faces as well as the vertices of the waterGeometry shape after the random values for the vertex coordinates have been generated
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
+  const geometry = new BoxBufferGeometry(...dimensions);
 
   // Create water material
   const material = new MeshToonMaterial({
@@ -49,7 +32,15 @@ function createWater() {
   // Reposition water mesh
   water.position.set(0, -15, 0);
 
-  water.update = (freqArray) => {};
+  // Add .waterBlock boolean property to allow easier identification during iteration
+  water.waterBlock = true;
+
+  // Increase and decrease the position of the water mesh in the y axis in a set interval using the predictable pattern of Sin
+  // inspiration for this was taken from a question regarding pivoting meshes side to side found here:
+  // https://stackoverflow.com/questions/40966828/three-js-rotate-an-object-back-and-forth-between-two-azimuth-angles
+  water.update = (freqArray) => {
+    water.position.y -= Math.sin(Date.now() * 0.005) * Math.PI * 0.005;
+  };
 
   return water;
 }
