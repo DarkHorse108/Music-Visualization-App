@@ -32,6 +32,9 @@ function createWater() {
   // Reposition water mesh
   water.position.set(0, -15, 0);
 
+  // Add .waterBlock boolean property to allow easier identification during iteration
+  water.waterBlock = true;
+
   // Increase and decrease the position of the water mesh in the y axis in a set interval using the predictable pattern of Sin
   // inspiration for this was taken from a question regarding pivoting meshes side to side found here:
   // https://stackoverflow.com/questions/40966828/three-js-rotate-an-object-back-and-forth-between-two-azimuth-angles
