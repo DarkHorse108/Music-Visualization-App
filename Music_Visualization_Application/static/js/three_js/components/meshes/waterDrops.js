@@ -24,6 +24,7 @@ function createWaterDrop() {
 
   // Create the mesh for this water "droplet"
   let waterDrop = new Mesh(dropGeometry, dropMaterial);
+  waterDrop.waterDrop = true;
 
   // Add the mesh in 3d space within its allowable range in the x and y axis, its place in the z axis will remain constant
   waterDrop.position.set(
