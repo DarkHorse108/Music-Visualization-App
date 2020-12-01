@@ -94,7 +94,7 @@ import {
 
   /******************************************************************************
    **
-   **  Helper Functions
+   **  fadeInWorld()
    **
    *******************************************************************************/
 
@@ -110,6 +110,12 @@ import {
       world.renderOpacity(1.0);
     }
   }
+
+  /******************************************************************************
+   **
+   **  callPerFrame()
+   **
+   *******************************************************************************/
 
   // When a track is played, the below functions will be called once per frame.
   // We update the seconds elapsed of the track during playback per frame.
@@ -132,6 +138,12 @@ import {
     // Recursively call callPerFrame() to render animation
     requestAnimationFrame(callPerFrame);
   }
+
+  /******************************************************************************
+   **
+   **  inputFormSubmit()
+   **
+   *******************************************************************************/
 
   // inputFormSubmit() handles the reloading of the track and world after a successful user submission
   function inputFormSubmit(event) {
