@@ -8,6 +8,7 @@ import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 // import { OrbitControls } from "./systems/OrbitControls.js";
 
 // Module-scoped variables to prevent access from outside module
+const WATER_OPACITY = 0.4;
 let camera;
 let scene;
 let renderer;
@@ -70,12 +71,20 @@ class World {
   // Takes a float representing opacity, sets all meshes to transparent, then increments opacity until 1.0 (opaque)
   renderOpacity(opacity) {
     meshes.forEach((mesh) => {
-      // For grouped meshes, iterate through child meshes
-      if (mesh.type === "Group") {
+      // For grouped meshes, iterate through child meshes and set transparency/opacity
+      if (mesh.type === "Group" && !mesh.waterBlock) {
         mesh.children.forEach((childMesh) => {
           setTransparency(childMesh, opacity);
         });
-      } else {
+      }
+
+      // For non-water meshes set the transparency/opacity
+      else if (!mesh.waterBlock) {
+        setTransparency(mesh, opacity);
+      }
+
+      // For water meshes set the transparency/opacity up to WATER_OPACITY limit
+      else if (mesh.waterBlock && opacity <= WATER_OPACITY) {
         setTransparency(mesh, opacity);
       }
     });
