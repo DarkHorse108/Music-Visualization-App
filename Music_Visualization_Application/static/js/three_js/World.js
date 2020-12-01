@@ -9,6 +9,8 @@ import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 
 // Module-scoped variables to prevent access from outside module
 const WATER_OPACITY = 0.4;
+const CLOUD_OPACITY = 0.08;
+const DROPLET_OPACITY = 0.012;
 let camera;
 let scene;
 let renderer;
@@ -72,20 +74,35 @@ class World {
   renderOpacity(opacity) {
     meshes.forEach((mesh) => {
       // For grouped meshes, iterate through child meshes and set transparency/opacity
-      if (mesh.type === "Group" && !mesh.waterBlock) {
+      if (
+        mesh.type === "Group" &&
+        !mesh.waterBlock &&
+        !mesh.waterDrop &&
+        !mesh.cloudBlock
+      ) {
         mesh.children.forEach((childMesh) => {
           setTransparency(childMesh, opacity);
         });
       }
 
       // For non-water meshes set the transparency/opacity
-      else if (!mesh.waterBlock) {
+      else if (!mesh.waterBlock && !mesh.waterDrop && !mesh.cloudBlock) {
         setTransparency(mesh, opacity);
       }
 
       // For water meshes set the transparency/opacity up to WATER_OPACITY limit
       else if (mesh.waterBlock && opacity <= WATER_OPACITY) {
         setTransparency(mesh, opacity);
+      } else if (mesh.waterDrop && opacity <= DROPLET_OPACITY) {
+        setTransparency(mesh, opacity);
+      } else if (
+        mesh.type === "Group" &&
+        mesh.cloudBlock &&
+        opacity <= CLOUD_OPACITY
+      ) {
+        mesh.children.forEach((childMesh) => {
+          setTransparency(childMesh, opacity);
+        });
       }
     });
 
