@@ -26,6 +26,9 @@ function createWaterfall(x, y, z) {
   // Position waterfall mesh
   waterfall.position.set(x, y, z);
 
+  // Add .waterBlock boolean property to allow easier identification during iteration
+  waterfall.waterBlock = true;
+
   return waterfall;
 }
 

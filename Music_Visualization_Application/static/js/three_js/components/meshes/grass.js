@@ -7,8 +7,12 @@ import {
   Mesh,
 } from "../../three.module.js";
 
+import { getRandomInt, getRandomFloat } from "../buildWorld.js";
+
 const dirtColors = [0xe6a376, 0xeab28b];
 const grassColors = [0x1e8449, 0x229954, 0x229954];
+const treeTrunkColors = [0xa7a87e, 0xc7a87e, 0xe7a87e];
+const treeLeafColors = [0x00cc66, 0x33cc66, 0x66cc66];
 
 function createGrass(x, y, z) {
   // Create base geometry
@@ -48,6 +52,51 @@ function createGrass(x, y, z) {
   const grassBlock = new Group();
   grassBlock.add(base);
   grassBlock.add(grass);
+
+  // Add a tree to grass if random int is 0
+  if (getRandomInt(0, 6) === 0) {
+    // Create tree trunk
+    const treeTrunkPos = [0, 5, 0];
+    const treeTrunkGeometry = new BoxBufferGeometry(1, getRandomInt(14, 17), 1);
+    const treeTrunkMaterial = new MeshStandardMaterial({
+      color:
+        treeTrunkColors[Math.floor(Math.random() * treeTrunkColors.length)],
+      roughness: 1,
+    });
+    const treeTrunkMesh = new Mesh(treeTrunkGeometry, treeTrunkMaterial);
+
+    // Position tree trunk then add to grassBlock group
+    treeTrunkMesh.position.set(...treeTrunkPos);
+    grassBlock.add(treeTrunkMesh);
+
+    // Set tree leaf levels
+    const treeLeafLevels = getRandomInt(3, 6);
+
+    // Set random rotation of tree leaves as a whole
+    const wholeRotation = getRandomFloat(0, 2 * Math.PI);
+
+    // Create tree leaves per level
+    for (let i = 0; i < treeLeafLevels; i++) {
+      const treeLeafPos = [0, treeTrunkGeometry.parameters.height - 3 + i, 0];
+      const treeLeafGeometry = new BoxBufferGeometry(
+        treeLeafLevels - i,
+        1,
+        treeLeafLevels - i
+      );
+      const treeLeafMaterial = new MeshStandardMaterial({
+        color:
+          treeLeafColors[Math.floor(Math.random() * treeLeafColors.length)],
+        roughness: 1,
+      });
+      const treeLeafMesh = new Mesh(treeLeafGeometry, treeLeafMaterial);
+
+      // Rotate and position tree leaf then add to grassBlock group
+      treeLeafMesh.position.set(...treeLeafPos);
+      treeLeafMesh.rotation.y +=
+        (i * Math.PI) / (treeLeafLevels * 2) + wholeRotation;
+      grassBlock.add(treeLeafMesh);
+    }
+  }
 
   // Position grouped block mesh
   grassBlock.position.set(x, y, z);

@@ -49,6 +49,9 @@ function createWater() {
   // Reposition water mesh
   water.position.set(0, -15, 0);
 
+  // Add .waterBlock boolean property to allow easier identification during iteration
+  water.waterBlock = true;
+
   water.update = (freqArray) => {};
 
   return water;
