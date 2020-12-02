@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+/* Background of the website contains both the gradient and the stars, to speed upperformance as opposed to rendering a new mesh of stars for each use */
 body {
   display: block;
   align-items: center;
@@ -23,16 +24,19 @@ body {
   background-repeat: no-repeat;
   /* background-attachment: fixed; */
 }
+/* Canvas fills its div container fully */
 canvas {
   width: 100%;
   height: 100%;
 }
 
+/* Animation div container takes up top 70% of page */
 #animation_div {
   width: 100%;
   height: 70%;
 }
 
+/* Player div container takes up remaining bottom 30% of page */
 #player_div {
   width: 100%;
   height: 30%;
@@ -82,14 +86,9 @@ canvas {
 
 .upper_body .left_panel {
   margin: auto;
-  /* margin-top: 17px; */
   overflow: hidden;
   width: 59%;
-  /* height: 30%; */
-  /* border-radius: 100%; */
   box-shadow: 13px 11px -1px #111, 0px -3px 19px #565656;
-  /* display: flex; */
-  /* flex-direction: column; */
   min-width: 175px;
   max-width: 175px;
   height: 100%;
@@ -98,14 +97,10 @@ canvas {
 .upper_body .left_panel img {
   width: 100%;
   height: 100%;
-  /* border-radius: 100%; */
-  /* margin-top: 0px; */
   margin: 0 auto;
 }
 
 .upper_body .central_panel {
-  /* display: flex;
-  flex-direction: column; */
   box-shadow: inset 4px 2px 0px #131313, inset -1px -1px 4px #262626;
   border-radius: 3px;
   min-width: 250px;
@@ -115,7 +110,6 @@ canvas {
 .upper_body .track_info {
   overflow: hidden;
   margin: 0 auto;
-  /* margin-top: 5px; */
   line-height: 0px;
   white-space: nowrap;
   min-width: 225px;
@@ -175,11 +169,8 @@ canvas {
 .upper_body .track_controls {
   overflow: hidden;
   margin: 0 auto;
-
   height: 51%;
   width: 100%;
-
-  /* box-shadow: inset 4px 4px 0px #131313, inset -1px -1px 4px #262626; */
   border-radius: 19px;
 }
 
@@ -298,8 +289,6 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 .upper_body .right_panel {
-  /* display: flex;
-  flex-direction: column; */
   min-width: 175px;
   max-width: 175px;
 }

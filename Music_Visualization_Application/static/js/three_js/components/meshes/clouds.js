@@ -53,35 +53,47 @@ function createCloud() {
     cloud.add(cloudMesh);
   }
 
-  // Set the cloud made up of cloud units into a random x, y, z coordinate in 3d space based on our desired limitations along the axes
-  // cloud.position.set(
-  //   getRandomInt(xRange.min, xRange.max),
-  //   getRandomInt(yRange.min, yRange.max),
-  //   getRandomInt(zRange.min, zRange.max)
-  // );
+  // Set the position of the Cloud group to a given coordinate within allowable/desirable 3D space
   cloud.position.set(
     getRandomInt(xRange.min, xRange.min + 5),
     getRandomInt(yRange.min, yRange.max),
     getRandomInt(zRange.min, zRange.max)
   );
 
+  // The update function is called for each frame
   cloud.update = () => {
-    decayOpacity(cloud, 0.000006);
+    // Value by which the Opacity is reduced per frame
+    const OPACITY_DECAY_RATE = 0.000006;
+
+    // Opacity value of the cloud group mesh at instantiation, is used to reset the opacity of the cloud group mesh when it is repositioned in the scene
+    const ORIGINAL_OPACITY = 0.08;
+
+    // Decrement opacity by the given value per frame, such that the cloud group as a whole eventually becomes transparent
+    decayOpacity(cloud, OPACITY_DECAY_RATE);
+
+    // Have the cloud group also move towards the positive x axis direction at a rate that is randomly chosen
     cloud.position.x += getRandomFloat(0.009, 0.02);
 
+    // If the cloud has reached the edge of the scne
     if (cloud.position.x >= xRange.max) {
+      // Return the cloud to the x-axis coordinate representing the top right of the scene
       cloud.position.x = xRange.min;
+      // Position the cloud unit to be at a random z coordinate towards the camera
       cloud.position.z = getRandomInt(zRange.min, zRange.max);
-      resetOpacity(cloud);
+
+      // Reset the opacity of the cloud unit from fully transparent to its original opacity value
+      resetOpacity(cloud, ORIGINAL_OPACITY);
     }
   };
 
+  // Flag used to mark this mesh as an exception to the transparency/fade in effect of the animation scene as a whole during load in
   cloud.cloudBlock = true;
 
   // Return the overarching cloud unit
   return cloud;
 }
 
+// Takes a THREE Group object, and decreases the opacity of each of its child meshes by the given value in argument opacityDecay
 function decayOpacity(groupMesh, opacityDecay) {
   groupMesh.children.forEach((child) => {
     if (child.material) {
@@ -90,10 +102,11 @@ function decayOpacity(groupMesh, opacityDecay) {
   });
 }
 
-function resetOpacity(groupMesh) {
+// Takes a THREE Group object, and sets the opacity of each of its children to a given value in argument opacitySet
+function resetOpacity(groupMesh, opacitySet) {
   groupMesh.children.forEach((child) => {
     if (child.material) {
-      child.material.opacity = 0.08;
+      child.material.opacity = opacitySet;
     }
   });
 }

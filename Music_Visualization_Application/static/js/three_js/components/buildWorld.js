@@ -44,6 +44,7 @@ function buildWorld() {
   // Generate grass blocks and add to scene
   generateBlocks(meshArray, createGrass, -2.5, 3);
 
+  // Generate the 2D Moon mesh in the sky
   meshArray.push(createMoon());
 
   return meshArray;
