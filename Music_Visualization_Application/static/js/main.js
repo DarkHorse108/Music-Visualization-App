@@ -33,6 +33,7 @@ import {
 // Import interface for three.js world
 import { World } from "./three_js/World.js";
 
+// Import function to polyfill requestAnimationFrame for smoother animations
 import { animation_polyfill } from "./animation_polyfill.js";
 
 // Import constants
@@ -102,8 +103,10 @@ import {
   function fadeInWorld() {
     opacity += FADE_STEPS;
     if (opacity < 1.0) {
-      // Render world with partial transparency until opacity >= 1.0
+      // Render world with designated opacity
       world.renderOpacity(opacity);
+
+      // Recursively call fadeInWorld() until opacity is 1.0
       requestAnimationFrame(fadeInWorld);
     } else {
       // Render world completely opaque
@@ -176,6 +179,7 @@ import {
       })
       // If the request was not successful, print to the console the error message indicating why.
       .catch((errorVariable) => {
+        // Set play/pause button
         if (globalAudio.playing()) {
           displayPauseButton();
         } else {

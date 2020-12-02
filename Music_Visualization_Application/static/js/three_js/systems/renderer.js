@@ -1,3 +1,4 @@
+// Import required renderer components from three.js
 import { WebGLRenderer } from "../three.module.js";
 import { PCFSoftShadowMap } from "../three.module.js";
 
