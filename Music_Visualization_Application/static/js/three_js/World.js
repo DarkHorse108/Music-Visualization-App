@@ -1,8 +1,13 @@
+// Import functions to instantiate camera, scene, lights, renderer
 import { createCamera } from "./components/camera.js";
 import { createScene } from "./components/scene.js";
 import { createLights } from "./components/lights.js";
 import { createRenderer } from "./systems/renderer.js";
+
+// Import Resizer class to handle window resize events
 import { Resizer } from "./systems/Resizer.js";
+
+// Import functions to instantiate and store meshes in an array
 import { buildWorld, buildUpdateables } from "./components/buildWorld.js";
 
 // import { OrbitControls } from "./systems/OrbitControls.js";
@@ -73,7 +78,7 @@ class World {
   // Takes a float representing opacity, sets all meshes to transparent, then increments opacity until 1.0 (opaque)
   renderOpacity(opacity) {
     meshes.forEach((mesh) => {
-      // For grouped meshes, iterate through child meshes and set transparency/opacity
+      // For grouped terrain meshes, iterate through child meshes and set transparency/opacity
       if (
         mesh.type === "Group" &&
         !mesh.waterBlock &&
@@ -85,7 +90,7 @@ class World {
         });
       }
 
-      // For non-water meshes set the transparency/opacity
+      // For non-grouped terrain meshes set the transparency/opacity
       else if (!mesh.waterBlock && !mesh.waterDrop && !mesh.cloudBlock) {
         setTransparency(mesh, opacity);
       }
@@ -93,9 +98,15 @@ class World {
       // For water meshes set the transparency/opacity up to WATER_OPACITY limit
       else if (mesh.waterBlock && opacity <= WATER_OPACITY) {
         setTransparency(mesh, opacity);
-      } else if (mesh.waterDrop && opacity <= DROPLET_OPACITY) {
+      }
+
+      // For water drop meshes set the transparency/opacity up to DROPLET_OPACITY limit
+      else if (mesh.waterDrop && opacity <= DROPLET_OPACITY) {
         setTransparency(mesh, opacity);
-      } else if (
+      }
+
+      // For grouped cloud meshes set the transparency/opacity up to CLOUD_OPACITY limit
+      else if (
         mesh.type === "Group" &&
         mesh.cloudBlock &&
         opacity <= CLOUD_OPACITY

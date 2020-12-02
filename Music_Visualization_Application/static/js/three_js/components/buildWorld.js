@@ -1,3 +1,4 @@
+// Import functions to build three.js meshes
 import { createStone } from "./meshes/stone.js";
 import { createDirt } from "./meshes/dirt.js";
 import { createGrass } from "./meshes/grass.js";
@@ -90,8 +91,11 @@ function buildUpdateables() {
   return updateablesArray;
 }
 
+// Generates a specified block in a specified area
 function generateBlocks(meshArray, createMesh, startingY, limit) {
   let y = startingY;
+
+  // Create and constrain mesh to a designated x, y, z area
   for (let z = 35.5; z >= -45.5; z -= 10) {
     for (let x = 45; x >= -52.5; x -= 10) {
       if (getRandomInt(0, 10) < limit) {
@@ -102,8 +106,9 @@ function generateBlocks(meshArray, createMesh, startingY, limit) {
   }
 }
 
+// Generate stones behind waterfall
 function createWaterFallStone(meshArray) {
-  // Generate stones behind waterfall
+  // Create and constrain stones to a designated x, y, z area
   for (let y = 3.7; y <= 43.7; y += 10) {
     for (let x = 15; x >= -15; x -= 10) {
       const stone = createStone(x, y, getRandomInt(50, 52));
@@ -112,6 +117,7 @@ function createWaterFallStone(meshArray) {
   }
 }
 
+// Generate dirt wall on the left side of the world
 function createLeftDirtWall(
   meshArray,
   xRangeStart,
@@ -121,6 +127,7 @@ function createLeftDirtWall(
 ) {
   let depth = 52.25;
 
+  // Create and constrain dirt to a designated x, y, z area
   for (let y = yRangeStart; y <= yRangeEnd; y += 10) {
     for (let x = xRangeStart; x >= xRangeEnd; x -= 10) {
       if (generateChance(0.5)) {
@@ -131,6 +138,7 @@ function createLeftDirtWall(
   }
 }
 
+// Generate dirt wall on the right side of the world
 function createRightDirtWall(
   meshArray,
   zRangeStart,
@@ -141,6 +149,7 @@ function createRightDirtWall(
   let depth = -52.25;
   let startingY = -2.5;
 
+  // Ceate and constrain dirt to a designated x, y, z area
   for (let y = yRangeStart; y <= yRangeEnd; y += 10) {
     for (let z = zRangeStart; z >= zRangeEnd; z -= 10) {
       if (generateChance(0.5)) {
@@ -150,6 +159,7 @@ function createRightDirtWall(
     }
   }
 
+  // Create and constrain grass to a designated x, y, z area
   for (let z = 35.5; z >= -45.5; z -= 10) {
     for (let x = 45; x >= -52.5; x -= 10) {
       if (getRandomInt(0, 10) < 6) {
@@ -160,8 +170,9 @@ function createRightDirtWall(
   }
 }
 
+// Generate dirt and grass at topmost layer
 function createTopLayer(meshArray) {
-  //Iterative generation
+  // Create and constrain grass to a designated x, y, z area
   for (let x = 45; x >= 25; x -= 10) {
     for (let z = 45; z >= 35; z -= 10) {
       const grass = createGrass(x, 45, z);
@@ -169,6 +180,7 @@ function createTopLayer(meshArray) {
     }
   }
 
+  // Create and constrain grass to a designated x, y, z area
   for (let x = -25; x >= -45; x -= 10) {
     for (let z = 45; z >= 5; z -= 10) {
       const grass = createGrass(x, 43, z);
@@ -176,6 +188,7 @@ function createTopLayer(meshArray) {
     }
   }
 
+  // Create and constrain grass to a designated x, y, z area
   for (let z = -25; z >= -45; z -= 10) {
     for (let x = -45; x <= -35; x += 10) {
       const grass = createGrass(x, 43, z);
@@ -183,7 +196,7 @@ function createTopLayer(meshArray) {
     }
   }
 
-  // Handmade stylistic touches
+  // Handmade stylistic touches for grass blocks
   meshArray.push(createGrass(-45, 43, -5));
   meshArray.push(createGrass(-35, 43, -5));
   meshArray.push(createGrass(-45, 43, -15));

@@ -75,19 +75,26 @@ function createGrass(x, y, z) {
     // Set random rotation of tree leaves as a whole
     const wholeRotation = getRandomFloat(0, 2 * Math.PI);
 
-    // Create tree leaves per level
+    // Create tree leaf mesh per level
     for (let i = 0; i < treeLeafLevels; i++) {
+      // Set tree leaf position
       const treeLeafPos = [0, treeTrunkGeometry.parameters.height - 3 + i, 0];
+
+      // Create tree leaf geometry
       const treeLeafGeometry = new BoxBufferGeometry(
         treeLeafLevels - i,
         1,
         treeLeafLevels - i
       );
+
+      // Create tree leaf material
       const treeLeafMaterial = new MeshStandardMaterial({
         color:
           treeLeafColors[Math.floor(Math.random() * treeLeafColors.length)],
         roughness: 1,
       });
+
+      // Create tree leaf mesh
       const treeLeafMesh = new Mesh(treeLeafGeometry, treeLeafMaterial);
 
       // Rotate and position tree leaf then add to grassBlock group

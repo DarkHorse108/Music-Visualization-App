@@ -1,4 +1,7 @@
+// Import globalAudio object to bind with buttons
 import { globalAudio } from "../audio_module.js";
+
+// Import functions to change the icon associated with the middle playback control button to reflect Pause, Play, and Loading.
 import {
   displayPauseButton,
   displayPlayButton,

@@ -1,11 +1,13 @@
 // Import Howler Library for audio playback handling
 import "./howler_js/howler.js";
 
+// Import functions to change the icon associated with the middle playback control button to reflect Pause, Play, and Loading.
 import {
   displayPlayButton,
   displayPauseButton,
 } from "./player_js/update_buttons_module.js";
 
+// Import relevant constants
 import { DEFAULT_TRACK, FREQUENCY_SAMPLESIZE } from "./constants.js";
 
 // Initialize new Howler.js object with its default track and behaviors
