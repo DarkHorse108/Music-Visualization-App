@@ -7,7 +7,7 @@ const VOLUME_UP_BUTTON = document.getElementById("volume_up_button");
 const VOLUME_DOWN_BUTTON = document.getElementById("volume_down_button");
 
 // Initialize the default track
-const DEFAULT_TRACK = "./static/mp3/furacao.mp3";
+const DEFAULT_TRACK = "./static/mp3/cat_song.mp3";
 
 // The quantity of fast fourier transform samples of the track's frequency to be sampled per call to the Analyzer Node.
 const FREQUENCY_SAMPLESIZE = 256;
