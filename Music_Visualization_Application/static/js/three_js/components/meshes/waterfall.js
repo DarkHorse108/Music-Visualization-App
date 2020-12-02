@@ -1,6 +1,5 @@
 import {
   BoxBufferGeometry,
-  MeshStandardMaterial,
   MeshToonMaterial,
   DoubleSide,
   Mesh,
@@ -8,6 +7,7 @@ import {
 
 const dimensions = [40, 55, 14]; // dimensions represented as [x, y, z]
 
+// Creates the transparent mesh representing the body of the waterfall
 function createWaterfall(x, y, z) {
   // Create waterfall geometry
   const geometry = new BoxBufferGeometry(...dimensions);
