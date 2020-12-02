@@ -57,7 +57,7 @@ function createGrass(x, y, z) {
   if (getRandomInt(0, 6) === 0) {
     // Create tree trunk
     const treeTrunkPos = [0, 5, 0];
-    const treeTrunkGeometry = new BoxBufferGeometry(1, getRandomInt(14, 17), 1);
+    const treeTrunkGeometry = new BoxBufferGeometry(1, getRandomInt(14, 18), 1);
     const treeTrunkMaterial = new MeshStandardMaterial({
       color:
         treeTrunkColors[Math.floor(Math.random() * treeTrunkColors.length)],
