@@ -396,14 +396,18 @@ input:-webkit-autofill:active {
   font-weight: bold;
 }
 
+.popup_content_text {
+  font-size: 12px;
+}
+
 .popup_content_text h2,
 h3 {
   color: #ff7700;
 }
-.popup_content img {
+.popup_content_text img {
   margin: 0 auto;
-  height: 50%;
-  width: 50%;
+  height: 40%;
+  width: 40%;
 }
 
 #exit {
