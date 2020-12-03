@@ -20,6 +20,40 @@
   </head>
 
   <body>
+    
+    <!-- Modal popup containing information regarding how to use the application -->
+    <div id="user_instructions_container" class="popup">
+      <div class="popup_content">
+        <!-- Represents the X or exit button to close the popup -->
+        <span id="exit">&times;</span>
+        <!-- Text, image, and link content of the popup is enclosed in the div below -->
+        <div class="popup_content_text">
+          <h2>Let's get Started</h2>
+          <p>This app is powered by <span class="user_emphasis">SoundCloud</span>, a music streaming platform. It's free and signup is not required.</p>
+          <p>For best results, use Firefox/Chrome on Desktop.</p>
+          <h3>Step 1) Find a Track</h3>
+          <p>Head over to <span class="user_emphasis">SoundCloud's</span> homepage by clicking <a
+            href="https://soundcloud.com/"
+            target="_blank"
+            rel="noopener noreferrer" class="user_emphasis"
+            >here</a
+          >.</p>
+          <p>Use the search box in the center and enter the title of a track and/or artist.</p>
+          <img class="example_img" src="../static/img/SC1.png" />
+          <h3>Step 2) Pick a Track</h3>
+          <p>Checkout the search results. When you find a track you like, click on the "share" button below it</p>
+          <img class="example_img" src="../static/img/SC2.png" />
+          <p>In the popup, copy the URL of the track.</p>
+          <img class="example_img" src="../static/img/SC3.png" />
+          <h3>Step 3) Load a Track</h3>
+          <p>Return to the application and paste the URL in the form, then press "submit."</p>
+          <p class="user_emphasis">Not all tracks can be streamed, if your track is unable to be loaded, you will be asked to try a different track.</p>
+          <img class="example_img" src="../static/img/SC4.png" />
+          <p>created by <span class="user_emphasis">Samnang Penh</span> and <span class="user_emphasis">John Sy</span></p>
+        </div>
+      </div>
+    </div>
+
     <div id="animation_div"></div>
       
     </div>
@@ -31,7 +65,6 @@
       <!-- The Upper Body is the topmost layer of the music player containing the song information, controls, and input form -->
       <div class="upper_body">
         <!-- The Upper Body Header is the topmsot div whose background is the blue/pink image used for stylistic purposes -->
-        <!-- <div class="upper_body_header"></div> -->
 
         <!-- Track Img contains the image associated with the track -->
         <div class="left_panel">
@@ -46,7 +79,7 @@
             <div class="track_info_position">
               <div class="track_title">
                 <h5 id="track_title_outer">
-                  <span id="track_title_text">Cat Song</span
+                  <span id="track_title_text">cat song</span
                   >
                 </h5>
               </div>
@@ -95,16 +128,8 @@
         <!-- User Messaging contains the instructional messages to the user on what information to input in the text form below it -->
         <div class="right_panel"> 
           <div class="user_messaging">
-            <p>
-              Enter the "share" URL of a
-              <a
-                href="https://soundcloud.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><i class="fab fa-soundcloud"></i>SoundCloud</a
-              >
-              track below, then press submit.
-            </p>
+            <i class="fab fa-soundcloud fa-3x"></i>
+            <p><a id ="user_instructions_link" href="#">Click here to get started</a></p>
           </div>
 
           <!-- Track Input contains the text input form and submission button for the user provided URL for a SoundCloud track -->
@@ -121,7 +146,7 @@
 
           <!-- User Error Messaging is the section of the player reserved for displaying an error message if the user provided URL is not valid -->
           <div id="user_error_messaging_div" class="user_error_messaging">
-            <!-- <p id="error_message">Invalid SoundCloud track URL. Please try again.</p> -->
+            <!-- <p id="error_message">Sorry, this track won't work.<br>Try a different one.</p> -->
           </div>
         </div>
 
@@ -135,6 +160,9 @@
       integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
       crossorigin="anonymous"
     ></script>
+
+    <!-- Modal popup for user instructions. -->
+    <script src="../static/js/user_instruction_module.js" type="module"></script>
 
     <!-- Main.js -->
     <script src="../static/js/main.js" type="module"></script>
